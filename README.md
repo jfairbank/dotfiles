@@ -2,7 +2,7 @@
 Just my .vim set up that I like to share amongst my machines.
 
 ### Installation:
-    git clone git://github.com/nelstrom/dotvim.git ~/.vim
+    git clone git://github.com/jfairbank/dotvim.git ~/.vim
 
 ### Create symlinks:
     ln -s ~/.vim/vimrc ~/.vimrc
