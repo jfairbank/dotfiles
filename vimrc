@@ -39,3 +39,13 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Find current buffer in nerdtree
 map <leader>r :NERDTreeFind<CR>
+
+" Dark
+colorscheme Tomorrow-Night-Eighties
+"colorscheme Monokai
+"colorscheme wombat256
+"colorscheme babymate256
+"colorscheme grb256
+
+" Light
+"colorscheme beauty256
