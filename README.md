@@ -1,5 +1,5 @@
 ## My .vim set up
-Just my shared .vim set up that I like to share amongst my machines.
+Just my .vim set up that I like to share amongst my machines.
 
 ### Installation:
     git clone git://github.com/nelstrom/dotvim.git ~/.vim
