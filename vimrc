@@ -31,6 +31,11 @@ au BufRead,BufNewFile *.jison                           set filetype=yacc
 au BufRead,BufNewFile *.jisonlex                        set filetype=javascript
 au BufRead,BufNewFile *.fun                             set filetype=sml
 
+augroup markdown
+  au!
+  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
+
 " Mappings
 " ========
 
