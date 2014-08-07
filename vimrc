@@ -36,6 +36,11 @@ augroup markdown
   au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 augroup END
 
+" Display line at col 80
+if exists('+colorcolumn')
+  let &colorcolumn = "80," . join(range(120, 999), ",")
+endif
+
 " Syntastic
 " =========
 let g:syntastic_javascript_checkers = ['jshint']
