@@ -26,10 +26,10 @@ autocmd VimEnter * wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Filetype syntax associations
-au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile set filetype=ruby
-au BufRead,BufNewFile *.jison                           set filetype=yacc
-au BufRead,BufNewFile *.jisonlex                        set filetype=javascript
-au BufRead,BufNewFile *.fun                             set filetype=sml
+au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder set filetype=ruby
+au BufRead,BufNewFile *.jison    set filetype=yacc
+au BufRead,BufNewFile *.jisonlex set filetype=javascript
+au BufRead,BufNewFile *.fun      set filetype=sml
 
 augroup markdown
   au!
