@@ -58,7 +58,8 @@ map <C-n> :NERDTreeToggle<CR>
 map <leader>r :NERDTreeFind<CR>
 
 " Dark
-colorscheme Tomorrow-Night-Eighties
+"colorscheme Tomorrow-Night-Eighties
+colorscheme hybrid
 "colorscheme Monokai
 "colorscheme wombat256
 "colorscheme babymate256
