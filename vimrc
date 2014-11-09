@@ -12,6 +12,8 @@ set expandtab
 set number
 set hlsearch
 set exrc
+" Handle CSS with background data pngs
+set synmaxcol=200
 
 " Folding
 set foldmethod=indent
