@@ -36,7 +36,7 @@ au BufRead,BufNewFile *.fun      set filetype=sml
 
 " Display line at col 80
 if exists('+colorcolumn')
-  let &colorcolumn = "80," . join(range(120, 999), ",")
+  let &colorcolumn = "80"
 endif
 
 " Syntastic
