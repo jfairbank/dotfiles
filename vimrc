@@ -56,6 +56,9 @@ map <leader>r :NERDTreeFind<CR>
 " Insert newline with Ctrl+C in insert mode
 imap <C-c> <CR><Esc>O
 
+" Colors
+" ======
+
 " Dark
 "colorscheme Tomorrow-Night-Eighties
 colorscheme hybrid
