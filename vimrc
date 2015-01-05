@@ -39,6 +39,9 @@ if exists('+colorcolumn')
   let &colorcolumn = "80"
 endif
 
+let g:indentLine_color_term=0
+let g:indentLine_char=' '
+
 " Syntastic
 " =========
 let g:syntastic_javascript_checkers = ['jshint']
