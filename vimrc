@@ -29,6 +29,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 " Filetype syntax associations
 au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder set filetype=ruby
+au BufRead,BufNewFile *.scss     set filetype=scss
 au BufRead,BufNewFile *.jison    set filetype=yacc
 au BufRead,BufNewFile *.jisonlex set filetype=javascript
 au BufRead,BufNewFile *.fun      set filetype=sml
