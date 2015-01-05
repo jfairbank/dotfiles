@@ -34,11 +34,6 @@ au BufRead,BufNewFile *.jison    set filetype=yacc
 au BufRead,BufNewFile *.jisonlex set filetype=javascript
 au BufRead,BufNewFile *.fun      set filetype=sml
 
-augroup markdown
-  au!
-  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-augroup END
-
 " Display line at col 80
 if exists('+colorcolumn')
   let &colorcolumn = "80," . join(range(120, 999), ",")
