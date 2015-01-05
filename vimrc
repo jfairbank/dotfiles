@@ -53,6 +53,9 @@ map <C-n> :NERDTreeToggle<CR>
 " Find current buffer in nerdtree
 map <leader>r :NERDTreeFind<CR>
 
+" Insert newline with Ctrl+C in insert mode
+imap <C-c> <CR><Esc>O
+
 " Dark
 "colorscheme Tomorrow-Night-Eighties
 colorscheme hybrid
