@@ -10,6 +10,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
+Bundle 'cakebaker/scss-syntax.vim'
 
 " Pathogen
 execute pathogen#infect()
