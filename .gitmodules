@@ -46,3 +46,6 @@
 [submodule "bundle/delimitMate"]
 	path = bundle/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
+[submodule "bundle/indentLine"]
+	path = bundle/indentLine
+	url = git@github.com:Yggdroot/indentLine.git
