@@ -1,6 +1,3 @@
-[submodule "bundle/colorschemes"]
-	path = bundle/colorschemes
-	url = git@github.com:flazz/vim-colorschemes.git
 [submodule "bundle/ctrlp.vim"]
 	path = bundle/ctrlp.vim
 	url = git://github.com/kien/ctrlp.vim.git
@@ -49,3 +46,9 @@
 [submodule "bundle/indentLine"]
 	path = bundle/indentLine
 	url = git@github.com:Yggdroot/indentLine.git
+[submodule "bundle/vim-javascript"]
+	path = bundle/vim-javascript
+	url = git@github.com:pangloss/vim-javascript.git
+[submodule "bundle/vim-colors-solarized"]
+	path = bundle/vim-colors-solarized
+	url = git@github.com:altercation/vim-colors-solarized.git

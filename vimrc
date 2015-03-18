@@ -43,18 +43,21 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 " Filetype syntax associations
 au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder set filetype=ruby
-au BufRead,BufNewFile *.scss     set filetype=scss
+au BufRead,BufNewFile *.scss     set filetype=sass
 au BufRead,BufNewFile *.jison    set filetype=yacc
-au BufRead,BufNewFile *.jisonlex set filetype=javascript
+au BufRead,BufNewFile *.es6,*.jisonlex set filetype=javascript
 au BufRead,BufNewFile *.fun      set filetype=sml
 
 " Display line at col 80
 if exists('+colorcolumn')
   let &colorcolumn = "80"
+  hi ColorColumn ctermbg=darkgray guibg=#063541
 endif
 
 let g:indentLine_color_term='darkgray'
 let g:indentLine_char='·'
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*/target/*
 
 " Syntastic
 " =========
@@ -77,8 +80,11 @@ imap <C-c> <CR><Esc>O
 " ======
 
 " Dark
+set background=dark
+"set background=light
+colorscheme solarized
 "colorscheme Tomorrow-Night-Eighties
-colorscheme hybrid
+"colorscheme hybrid
 "colorscheme Monokai
 "colorscheme wombat256
 "colorscheme babymate256
