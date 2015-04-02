@@ -48,6 +48,20 @@ au BufRead,BufNewFile *.jison    set filetype=yacc
 au BufRead,BufNewFile *.es6,*.jisonlex set filetype=javascript
 au BufRead,BufNewFile *.fun      set filetype=sml
 
+" Create directories if they don't exist
+function s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            call mkdir(dir, 'p')
+        endif
+    endif
+endfunction
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+
 " Display line at col 80
 if exists('+colorcolumn')
   let &colorcolumn = "80"
