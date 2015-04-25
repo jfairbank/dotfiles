@@ -11,6 +11,12 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Bundle 'cakebaker/scss-syntax.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'ervandew/supertab'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'angelozerr/tern-jasmine'
 
 " Pathogen
 execute pathogen#infect()
@@ -48,6 +54,10 @@ au BufRead,BufNewFile *.jison    set filetype=yacc
 au BufRead,BufNewFile *.es6,*.jisonlex set filetype=javascript
 au BufRead,BufNewFile *.fun      set filetype=sml
 
+" Close scratch preview
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
 " Create directories if they don't exist
 function s:MkNonExDir(file, buf)
     if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
@@ -68,6 +78,16 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
+" YouCompleteMe and UltiSnips
+" (https://medium.com/brigade-engineering/sharpen-your-vim-with-snippets-767b693886db)
+let g:SuperTabDefaultCompletionType    = '<C-n>'
+let g:SuperTabCrMapping                = 0
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+
 " Display line at col 80
 if exists('+colorcolumn')
   let &colorcolumn = "80"
@@ -83,6 +103,8 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*/target/*
 " =========
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_c_compiler = 'clang'
+let g:syntastic_c_checkers = ['clang', 'gcc']
 
 " Mappings
 " ========
