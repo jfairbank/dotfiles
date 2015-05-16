@@ -2,12 +2,10 @@
 Just my .vim set up that I like to share amongst my machines.
 
 ### Installation:
-    git clone git://github.com/jfairbank/dotvim.git ~/.vim
+
+1. Install [Vundle](https://github.com/gmarik/Vundle.vim) first
+2. Run `$ vim +PluginInstall +qall` to install plugins
+3. Finish set up for [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
 
 ### Create symlinks:
     ln -s ~/.vim/vimrc ~/.vimrc
-
-### Fetch submodules:
-    cd ~/.vim
-    git submodule init
-    git submodule update
