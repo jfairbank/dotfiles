@@ -64,6 +64,7 @@ set foldlevel=1
 autocmd VimEnter * if !argc() | NERDTree | endif
 autocmd VimEnter * wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd BufEnter * lcd %:p:h
 
 " Filetype syntax associations
 au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder set filetype=ruby
@@ -119,7 +120,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*/target/*
 
 " Syntastic
 " =========
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jsxhint']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_c_compiler = 'clang'
 let g:syntastic_c_checkers = ['clang', 'gcc']
