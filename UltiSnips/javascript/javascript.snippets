@@ -1,0 +1,75 @@
+snippet ar "Arrow function" i
+${1:params} => ${2}
+endsnippet
+
+snippet arb "Arrow function with braces" i
+${1:params} => {
+	${2}
+}
+endsnippet
+
+snippet par "Arrow function with parens" i
+${1:params} => (
+	${2}
+)
+endsnippet
+
+snippet fe "forEach" b
+${1:name}.forEach(${2:params} => ${3});
+endsnippet
+
+snippet feb "forEach braces" b
+${1:name}.forEach(${2:params} => {
+	${3}
+});
+endsnippet
+
+snippet mapa "map" i
+${1:name}.map(${2:params} => ${3})
+endsnippet
+
+snippet mapab "map braces" i
+${1:name}.map(${2:params} => {
+	${3}
+})
+endsnippet
+
+snippet ex "ES6 export" b
+export ${1:default}$0
+endsnippet
+
+snippet exf "ES6 export function" b
+export ${1:default} function ${2:name}(${3:args}) {
+	$0
+}
+endsnippet
+
+snippet ret "return" b
+return ${0:result};
+endsnippet
+
+snippet sw "switch" b
+switch (${1:expression}) {
+	$0
+	default:
+		$2
+}
+endsnippet
+
+snippet rcase "reducer case" b
+case ${1:expression}:
+	return $0
+
+endsnippet
+
+snippet class "class" b
+class ${1:name}${2: extends }${3:parent} {
+	$0
+}
+endsnippet
+
+snippet meth "method" b
+${1:name}(${2:params}) {
+	$0
+}
+endsnippet
