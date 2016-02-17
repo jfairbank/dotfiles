@@ -1,0 +1,49 @@
+snippet test "test(...)" b
+test('${1:name}', ${2:t} => {
+	${0}
+});
+endsnippet
+
+#snippet tpl "t.plan(n)" b
+#${1:t}.plan(${2:1});
+#endsnippet
+
+#snippet tok "t.ok(...)" b
+#${1:t}.ok(${2:true}${3:, message});
+#endsnippet
+
+#snippet tis "t.is(...)" b
+#${1:t}.is(${2:value}, ${3:expected}${4:, message});
+#endsnippet
+
+snippet tpl "t.plan(n)" b
+${1:t}.plan(${0:1});
+endsnippet
+
+snippet tok "t.ok(...)" b
+${1:t}.ok(${2:true}${0:, message});
+endsnippet
+
+snippet tnok "t.notOk(...)" b
+${1:t}.notOk(${2:false}${0:, message});
+endsnippet
+
+snippet tis "t.is(...)" b
+${1:t}.is(${2:value}, ${3:expected}${0:, message});
+endsnippet
+
+snippet tsa "t.same(...)" b
+${1:t}.same(${2:value}, ${3:expected}${0:, message});
+endsnippet
+
+snippet tnot "t.not(...)" b
+t.not(${1:value}, ${2:expected}${3:, message});
+endsnippet
+
+snippet tthr "t.throws(...)" b
+t.throws(${1:fn}, ${2:error}${3:, message});
+endsnippet
+
+snippet tdnt "t.doesNotThrow(...)" b
+t.doesNotThrow(${1:fn}${2:, message});
+endsnippet
