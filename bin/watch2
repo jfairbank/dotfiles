@@ -1,0 +1,29 @@
+#!/bin/bash
+
+N=1
+
+while getopts ":n:" opt; do
+  case $opt in
+    n)
+      N=$OPTARG
+      shift 2
+      ;;
+    :)
+      >&2 echo "Option -$OPTARG requires an argument."
+      exit 1
+      ;;
+  esac
+done
+
+CMD="$1"
+
+if [[ -z "$CMD" ]]; then
+  >&2 echo "No command supplied"
+  exit 1
+fi
+
+while true; do
+  clear
+  eval "$CMD"
+  sleep "$N"
+done

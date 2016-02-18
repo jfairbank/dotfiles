@@ -1,0 +1,18 @@
+#!/bin/bash
+
+filepath="${1-.}"
+
+git diff "$filepath"
+
+[[ $? -ne 0 ]] && exit
+
+printf "\nOk to stage? [y/p/e/N]: "
+read stage
+
+if [[ "$stage" == "y" || "$stage" == "Y" ]]; then
+  git add "$filepath"
+elif [[ "$stage" == "p" || "$stage" == "P" ]]; then
+  git add -p "$filepath"
+elif [[ "$stage" == "e" || "$stage" == "E" ]]; then
+  git vim-add "$filepath"
+fi

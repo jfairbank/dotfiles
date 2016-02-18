@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+syntax_file = ARGV[-1]
+
+abort 'Need syntax file to copy' if syntax_file.nil?
+
+OPTIONS = ARGV[0...-1]
+FILE = 'copy-syntax.sh'
+
+def find_bin(dir)
+  path = File.expand_path(dir)
+
+  abort "'#{FILE}' file not found" if path == '/'
+
+  file = File.join(path, FILE)
+
+  File.exists?(file) ? file : find_bin(File.join(dir, '..'))
+end
+
+bin = find_bin(Dir.pwd)
+
+cmd = "#{bin} #{OPTIONS * ' '} #{File.expand_path(syntax_file)}"
+
+system cmd
