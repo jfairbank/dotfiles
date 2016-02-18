@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+if ARGV[0].nil?
+  abort 'Please provide a JDK version'
+end
+
+prefixes = {
+  '1.6' => '/System/Library/Java/JavaVirtualMachines/1.6.0.jdk',
+  '1.7' => '/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk',
+  '1.8' => '/Library/Java/JavaVirtualMachines/jdk1.8.0_51.jdk'
+}
+
+version = ARGV[0]
+prefix = prefixes[version]
+
+if prefix.nil?
+  abort "Unknown version #{version}"
+end
+
+path = "#{prefix}/Contents/Home"
+
+ENV['JAVA_HOME'] = path
+
+exec '/bin/bash -l'
