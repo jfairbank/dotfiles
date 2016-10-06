@@ -4,7 +4,10 @@ filepath="${1-.}"
 
 vim "$filepath"
 
-[[ $? -ne 0 ]] && exit
+if [[ ! -f "$filepath" ]]; then
+  echo "No file exists at "\""$filepath"\"". Exiting."
+  exit 1
+fi
 
 printf "\nOk to stage? [y/p/N]: "
 read stage
