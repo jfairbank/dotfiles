@@ -1,49 +1,57 @@
-snippet test "test(...)" b
+snippet test "ava test(...)" b
 test('${1:name}', ${2:t} => {
 	${0}
 });
 endsnippet
 
-#snippet tpl "t.plan(n)" b
-#${1:t}.plan(${2:1});
-#endsnippet
-
-#snippet tok "t.ok(...)" b
-#${1:t}.ok(${2:true}${3:, message});
-#endsnippet
-
-#snippet tis "t.is(...)" b
-#${1:t}.is(${2:value}, ${3:expected}${4:, message});
-#endsnippet
-
-snippet tpl "t.plan(n)" b
-${1:t}.plan(${0:1});
+snippet des "ava describe(...)" b
+describe('${1:name}', ${2:it} => {
+	${0}
+});
 endsnippet
 
-snippet tok "t.ok(...)" b
-${1:t}.ok(${2:true}${0:, message});
+snippet it "ava it(...)" b
+it('${1:name}', ${2:t} => {
+	${0}
+});
 endsnippet
 
-snippet tnok "t.notOk(...)" b
-${1:t}.notOk(${2:false}${0:, message});
+snippet tt "ava t.true(...)" b
+${1:t}.true(${2:true});
 endsnippet
 
-snippet tis "t.is(...)" b
-${1:t}.is(${2:value}, ${3:expected}${0:, message});
+snippet tf "ava t.false(...)" b
+${1:t}.false(${2:false});
 endsnippet
 
-snippet tsa "t.same(...)" b
-${1:t}.same(${2:value}, ${3:expected}${0:, message});
+snippet tis "ava t.is(...)" b
+${1:t}.is(${2:value}, ${3:expected});
 endsnippet
 
-snippet tnot "t.not(...)" b
-t.not(${1:value}, ${2:expected}${3:, message});
+snippet tdp "ava t.deepEqual(...)" b
+${1:t}.deepEqual(${2:value}, ${3:expected});
 endsnippet
 
-snippet tthr "t.throws(...)" b
-t.throws(${1:fn}, ${2:error}${3:, message});
+snippet tnot "ava t.not(...)" b
+${1:t}.not(${2:value}, ${3:expected});
 endsnippet
 
-snippet tdnt "t.doesNotThrow(...)" b
-t.doesNotThrow(${1:fn}${2:, message});
+snippet tthr "ava t.throws(...)" b
+t.throws(${1:_} => {
+	$2
+}${3:, error});
+endsnippet
+
+snippet tnt "ava t.notThrows(...)" b
+t.notThrows(${1:_} => {
+	$2
+}${3:, message});
+endsnippet
+
+snippet tr "ava t.regex(...)" b
+${1:t}.regex(${2:value}, /${3:regex}/);
+endsnippet
+
+snippet tnr "ava t.notRegex(...)" b
+${1:t}.notRegex(${2:value}, /${3:regex}/);
 endsnippet

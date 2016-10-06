@@ -19,18 +19,21 @@ PROMPT_COMMAND=set_prompt
 alias ls='ls -G'
 alias ll='ls -l'
 alias png2b64='ruby -rbase64 -e '\''puts "data:image/png;base64,#{Base64.strict_encode64(ARGF.read)}"'\'''
-alias serve='python -m SimpleHTTPServer'
+#alias serve='python -m SimpleHTTPServer'
+alias serve='ruby -run -ehttpd . -p8000'
 alias grep='grep --color=auto'
 alias ag='ag --ignore-dir target --pager="less -R"'
 alias gtags='gtags --options=$HOME/ctags'
 alias trash='rmtrash'
 alias del='rmtrash'
 alias be='bundle exec'
+alias s='spotify'
 
 # Vars
 export PATH="/usr/local/bin:$HOME/bin:$PATH"
 export BROWSER=chrome
 export POW_EXT_DOMAINS=dev,com
+export PYTHONSTARTUP=~/.pythonrc
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"

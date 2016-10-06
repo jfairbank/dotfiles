@@ -1,4 +1,4 @@
-snippet ar "Arrow function" i
+snippet ar "Arrow function"
 ${1:params} => ${2}
 endsnippet
 
@@ -61,7 +61,7 @@ case ${1:expression}:
 	$0
 endsnippet
 
-snippet class "class" b
+snippet class "class" i
 class ${1:name}${2: extends }${3:parent} {
 	$0
 }
@@ -72,3 +72,59 @@ ${1:name}(${2:params}) {
 	$0
 }
 endsnippet
+
+snippet type "type"
+type ${1:Name} = $0;
+endsnippet
+
+snippet foro "for of" b
+for (const ${1:value} of ${2:iterable}) {
+	$0
+}
+endsnippet
+
+snippet async "async function" b
+async function ${1:name}(${2:params}) {
+	$0
+}
+endsnippet
+
+snippet aw "await" i
+await ${1:expression}
+endsnippet
+
+snippet propt "propTypes definition" b
+${1:name}.propTypes = {
+	$0
+};
+endsnippet
+
+snippet gen "Generator function" i
+function* ${1:name}(${2:params}) {
+	$0
+}
+endsnippet
+
+snippet y "yield" b
+yield $0;
+endsnippet
+
+snippet y* "yield*" b
+yield* $0;
+endsnippet
+
+#snippet des "describe(...)" b
+#describe('${1:description}', () => {
+#  $0
+#});
+#endsnippet
+
+#snippet it "it" b
+#it('${1:description}', () => {
+#  $0
+#});
+#endsnippet
+
+#snippet ex "expect" b
+#expect(${1:target})$0;
+#endsnippet
