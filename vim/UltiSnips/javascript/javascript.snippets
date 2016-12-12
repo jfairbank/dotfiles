@@ -61,11 +61,11 @@ case ${1:expression}:
 	$0
 endsnippet
 
-snippet class "class" i
-class ${1:name}${2: extends }${3:parent} {
-	$0
-}
-endsnippet
+# snippet class "class" i
+# class ${1:name}${2: extends }${3:parent} {
+#   $0
+# }
+# endsnippet
 
 snippet meth "method" b
 ${1:name}(${2:params}) {
@@ -113,18 +113,70 @@ snippet y* "yield*" b
 yield* $0;
 endsnippet
 
-#snippet des "describe(...)" b
-#describe('${1:description}', () => {
-#  $0
-#});
-#endsnippet
+snippet des "describe(...)" b
+describe('${1:description}', () => {
+	$0
+});
+endsnippet
 
-#snippet it "it" b
-#it('${1:description}', () => {
-#  $0
-#});
-#endsnippet
+snippet it "it(...)" b
+it('${1:description}', () => {
+	$0
+});
+endsnippet
 
-#snippet ex "expect" b
-#expect(${1:target})$0;
-#endsnippet
+snippet test "test(...)" b
+test('${1:description}', () => {
+	$0
+});
+endsnippet
+
+snippet bef "beforeEach(...)" b
+beforeEach(() => {
+	$1
+});
+endsnippet
+
+snippet eb "expect(...).toBe(...)" b
+expect(${1:actual}).toBe(${2:expected});
+endsnippet
+
+snippet nb "expect(...).not.toBe(...)" b
+expect(${1:actual}).not.toBe(${2:expected});
+endsnippet
+
+snippet ee "expect(...).toEqual(...)" b
+expect(${1:actual}).toEqual(${2:expected});
+endsnippet
+
+snippet em "expect(...).toMatch()" b
+expect(${1:actual}).toMatch(/${2:regex}/);
+endsnippet
+
+snippet ems "expect(...).toMatchSnapshot()" b
+expect(shallowToJson(${1:element})).toMatchSnapshot();
+endsnippet
+
+snippet ebty "expect(...).toBeTruthy()" b
+expect(${1:actual}).toBeTruthy();
+endsnippet
+
+snippet eio "expect(...).toBeInstanceOf(...)" b
+expect(${1:instance}).toBeInstanceOf(${2:constructor});
+endsnippet
+
+snippet ethbc "expect(...).toHaveBeenCalled()" b
+expect(${1:spy}).toHaveBeenCalled();
+endsnippet
+
+snippet ethbct "expect(...).toHaveBeenCalledTimes(n)" b
+expect(${1:spy}).toHaveBeenCalledTimes(${2:n});
+endsnippet
+
+snippet ethbcw "expect(...).toHaveBeenCalledWith(...args)" b
+expect(${1:spy}).toHaveBeenCalledWith(${2:args});
+endsnippet
+
+snippet nthbc "expect(...).not.toHaveBeenCalled()" b
+expect(${1:spy}).not.toHaveBeenCalled();
+endsnippet
