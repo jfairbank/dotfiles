@@ -2,73 +2,93 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Bundle 'cakebaker/scss-syntax.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'marijnh/tern_for_vim'
-" Plugin 'angelozerr/tern-jasmine'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ervandew/supertab'
 
-Plugin 'mxw/vim-jsx.git'
-" Plugin 'othree/yajs.vim'
-" Plugin 'othree/es.next.syntax.vim'
-" Plugin 'gavocanov/vim-js-indent'
-Plugin 'flowtype/vim-flow'
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/html5.vim'
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    !./install.py --clang-completer --tern-completer
+  endif
+endfunction
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'mattn/emmet-vim.git'
-Plugin 'scrooloose/nerdcommenter.git'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'digitaltoad/vim-jade.git'
-Plugin 'groenewege/vim-less.git'
-Plugin 'tpope/vim-rails.git'
-Plugin 'mustache/vim-mustache-handlebars.git'
-Plugin 'Yggdroot/indentLine.git'
-Plugin 'vim-scripts/matchit.zip.git'
-Plugin 'tpope/vim-surround.git'
-Plugin 'scrooloose/syntastic.git'
-Plugin 'gabrielelana/vim-markdown.git'
-" Plugin 'plasticboy/vim-markdown'
-Plugin 'Raimondi/delimitMate.git'
-Plugin 'tpope/vim-fugitive'
-Plugin 'rking/ag.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'tpope/vim-abolish'
-Plugin 'trotzig/import-js'
-Plugin 'mlr-msft/vim-loves-dafny'
-Plugin 'claco/jasmine.vim'
-Plugin 'elzr/vim-json'
-Plugin 'wizicer/vim-jison'
-Plugin 'mtscout6/syntastic-local-eslint.vim'
-Plugin 'felixschl/vim-gh-preview'
-Plugin 'junegunn/goyo.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'itchyny/lightline.vim'
-Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'digitaltoad/vim-pug'
-Plugin 'ElmCast/elm-vim'
-" Plugin 'lambdatoast/elm.vim'
+function! BuildTern(info)
+  if a:info.status == 'installed' || a:info.force
+    !npm install
+  endif
+endfunction
+Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
+
+" Plug 'angelozerr/tern-jasmine'
+
+Plug 'mxw/vim-jsx'
+" Plug 'othree/yajs.vim'
+" Plug 'othree/es.next.syntax.vim'
+" Plug 'gavocanov/vim-js-indent'
+Plug 'flowtype/vim-flow'
+Plug 'pangloss/vim-javascript'
+Plug 'othree/html5.vim'
+
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mattn/emmet-vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'digitaltoad/vim-jade'
+Plug 'groenewege/vim-less'
+Plug 'tpope/vim-rails'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'Yggdroot/indentLine'
+Plug 'vim-scripts/matchit.zip'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/syntastic'
+Plug 'gabrielelana/vim-markdown'
+" Plug 'godlygeek/tabular'
+" Plug 'plasticboy/vim-markdown'
+" Plug 'suan/vim-instant-markdown'
+Plug 'Raimondi/delimitMate'
+Plug 'tpope/vim-fugitive'
+Plug 'rking/ag.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-abolish'
+Plug 'trotzig/import-js'
+Plug 'mlr-msft/vim-loves-dafny'
+Plug 'claco/jasmine.vim'
+Plug 'elzr/vim-json'
+Plug 'wizicer/vim-jison'
+Plug 'mtscout6/syntastic-local-eslint.vim'
+Plug 'felixschl/vim-gh-preview'
+Plug 'junegunn/goyo.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'itchyny/lightline.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'digitaltoad/vim-pug'
+Plug 'ElmCast/elm-vim'
+" Plug 'lambdatoast/elm.vim'
+Plug 'tpope/vim-dispatch'
+Plug 'craigdallimore/vim-jest-cli'
+Plug 'wesQ3/vim-windowswap'
+Plug 'jpalardy/vim-slime'
+Plug 'elixir-lang/vim-elixir'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+Plug 'Quramy/vim-js-pretty-template'
+Plug 'beloglazov/vim-online-thesaurus'
 
 " Colorscheme plugins
-Plugin 'altercation/vim-colors-solarized.git'
-Plugin 'yosiat/oceanic-next-vim'
-Plugin 'fabi1cazenave/kalahari.vim'
-Plugin 'queyenth/oxeded.vim'
-Plugin 'jonathanfilip/vim-lucius'
-Plugin 'AlessandroYorba/Alduin'
-Plugin 'trevordmiller/nova-vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'yosiat/oceanic-next-vim'
+Plug 'fabi1cazenave/kalahari.vim'
+Plug 'queyenth/oxeded.vim'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'AlessandroYorba/Alduin'
+Plug 'trevordmiller/nova-vim'
+
+call plug#end()
 
 " Pathogen
 execute pathogen#infect()
@@ -233,16 +253,21 @@ let g:flow#errjmp = 0
 let g:flow#flowpath = StrTrim(system('PATH=$(npm bin):$PATH && which flow'))
 let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
+command Jest Dispatch jest
 
 " Markdown
 " Auto wrap markdown
 au BufRead,BufNewFile *.md setlocal textwidth=80 wrap
 " Use octodown as default build command for Markdown files
 " autocmd FileType markdown let b:dispatch = 'octodown --live-reload %'
-" let g:vim_markdown_fenced_languages = ['js=javascript.jsx']
+" let g:vim_markdown_fenced_languages = ['js=javascript']
+let g:markdown_fenced_languages = ['js=javascript']
 
 " Make executable
 "au BufWritePost * if getline(1) =~ "^#!.*/bin/" | silent !chmod +x % | endif
+
+" Slime
+let g:slime_target = 'tmux'
 
 " Close scratch preview
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
@@ -321,6 +346,7 @@ let g:syntastic_dafny_dafny_args = '-allowGlobals'
 let g:syntastic_java_checkers = ['javac']
 let g:syntastic_java_javac_classpath = ".\n./korat/*"
 let g:elm_syntastic_show_warnings = 1
+let g:syntastic_ruby_checkers = ['rubocop']
 
 highlight link SyntasticErrorSign SignColumn
 highlight link SyntasticWarningSign SignColumn
