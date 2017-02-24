@@ -23,17 +23,14 @@ function! BuildTern(info)
 endfunction
 Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 
-" Plug 'angelozerr/tern-jasmine'
-
 Plug 'mxw/vim-jsx'
-" Plug 'othree/yajs.vim'
-" Plug 'othree/es.next.syntax.vim'
-" Plug 'gavocanov/vim-js-indent'
-Plug 'flowtype/vim-flow'
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'airblade/vim-rooter'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
@@ -44,11 +41,8 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-scripts/matchit.zip'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'gabrielelana/vim-markdown'
-" Plug 'godlygeek/tabular'
-" Plug 'plasticboy/vim-markdown'
-" Plug 'suan/vim-instant-markdown'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
@@ -59,16 +53,14 @@ Plug 'mlr-msft/vim-loves-dafny'
 Plug 'claco/jasmine.vim'
 Plug 'elzr/vim-json'
 Plug 'wizicer/vim-jison'
-Plug 'mtscout6/syntastic-local-eslint.vim'
-Plug 'felixschl/vim-gh-preview'
+Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
-Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter', { 'on': [] }
 Plug 'itchyny/lightline.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'digitaltoad/vim-pug'
 Plug 'ElmCast/elm-vim'
-" Plug 'lambdatoast/elm.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'craigdallimore/vim-jest-cli'
 Plug 'wesQ3/vim-windowswap'
@@ -78,6 +70,8 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'Quramy/vim-js-pretty-template'
 Plug 'beloglazov/vim-online-thesaurus'
+Plug 'gcorne/vim-sass-lint'
+Plug 'jaxbot/browserlink.vim'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -106,6 +100,7 @@ set expandtab
 set number
 set hlsearch
 set exrc
+set signcolumn=yes
 
 " Omnifunc
 set omnifunc=syntaxcomplete#Complete
@@ -129,7 +124,10 @@ let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'mode_map': { 'c': 'NORMAL' },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+      \   'right': [ [ 'ale', 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'component_function': {
       \   'modified': 'LightLineModified',
@@ -140,6 +138,12 @@ let g:lightline = {
       \   'filetype': 'LightLineFiletype',
       \   'fileencoding': 'LightLineFileencoding',
       \   'mode': 'LightLineMode',
+      \ },
+      \ 'component_expand': {
+      \   'ale': 'ALEGetStatusLine',
+      \ },
+      \ 'component_type': {
+      \   'ale': 'error',
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' }
@@ -248,9 +252,6 @@ function! StrTrim(txt)
 endfunction
 
 " JavaScript
-let g:flow#autoclose = 1
-let g:flow#errjmp = 0
-let g:flow#flowpath = StrTrim(system('PATH=$(npm bin):$PATH && which flow'))
 let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
 command Jest Dispatch jest
@@ -261,10 +262,7 @@ au BufRead,BufNewFile *.md setlocal textwidth=80 wrap
 " Use octodown as default build command for Markdown files
 " autocmd FileType markdown let b:dispatch = 'octodown --live-reload %'
 " let g:vim_markdown_fenced_languages = ['js=javascript']
-let g:markdown_fenced_languages = ['js=javascript']
-
-" Make executable
-"au BufWritePost * if getline(1) =~ "^#!.*/bin/" | silent !chmod +x % | endif
+" let g:markdown_fenced_languages = ['js=javascript']
 
 " Slime
 let g:slime_target = 'tmux'
@@ -273,25 +271,8 @@ let g:slime_target = 'tmux'
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-" Create directories if they don't exist
-" function s:MkNonExDir(file, buf)
-"     if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-"         let dir=fnamemodify(a:file, ':h')
-"         if !isdirectory(dir)
-"             call mkdir(dir, 'p')
-"         endif
-"     endif
-" endfunction
-" augroup BWCCreateDir
-"     autocmd!
-"     autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
-" augroup END
-
-" Ctrl+P
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+" matze/vim-move
+let g:move_key_modifier = 'C'
 
 " YouCompleteMe and UltiSnips
 " (https://medium.com/brigade-engineering/sharpen-your-vim-with-snippets-767b693886db)
@@ -321,37 +302,30 @@ let g:ycm_semantic_triggers = {
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*/target/*
 
-" Syntastic
-" =========
-" http://blog.pixelastic.com/2015/10/05/use-local-eslint-in-syntastic/
+" Ale
+" ===
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 
-let g:syntastic_javascript_checkers = ['eslint']
-"let b:syntastic_javascript_eslint_exec = StrTrim(system('npm-which eslint'))
-" let b:syntastic_javascript_eslint_exec = 'eslint_d'
-let g:syntastic_python_checkers = ['flake8']
-" let g:syntastic_python_flake8_args='--ignore=E201'
-let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_loc_list_height = 5
-let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_auto_jump = 2
-let g:syntastic_error_symbol = '❌'
-let g:syntastic_style_error_symbol = '⁉️'
-let g:syntastic_warning_symbol = '⚠️'
-let g:syntastic_style_warning_symbol = '💩'
-let g:syntastic_c_compiler = 'clang'
-let g:syntastic_c_checkers = ['clang', 'gcc']
-let g:syntastic_dafny_checkers = ['dafny']
-let g:syntastic_dafny_dafny_args = '-allowGlobals'
-let g:syntastic_java_checkers = ['javac']
-let g:syntastic_java_javac_classpath = ".\n./korat/*"
-let g:elm_syntastic_show_warnings = 1
-let g:syntastic_ruby_checkers = ['rubocop']
+augroup AutoAle
+  autocmd!
+  autocmd User ALELint call lightline#update()
+augroup END
 
-highlight link SyntasticErrorSign SignColumn
-highlight link SyntasticWarningSign SignColumn
-highlight link SyntasticStyleErrorSign SignColumn
-highlight link SyntasticStyleWarningSign SignColumn
+" Rooter
+" =====
+let g:rooter_silent_chdir = 1
+
+" FZF
+" ===
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+autocmd VimEnter * command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 
 " Mappings
 " ========
@@ -369,7 +343,12 @@ nmap ,n :NERDTreeFind<CR>
 imap <C-c> <CR><Esc>O
 
 " Do SyntasticCheck
-nmap <leader>sc :SyntasticCheck<CR>
+" nmap <leader>sc :SyntasticCheck<CR>
+
+nmap <leader>e <Plug>(ale_previous_wrap)
+nmap <leader>f <Plug>(ale_next_wrap)
+
+map <C-p> :FZF<CR>
 
 " Colors
 " ======
