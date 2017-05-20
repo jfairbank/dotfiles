@@ -1,0 +1,49 @@
+#!/bin/bash
+
+COMPARE=0
+DEBUG=0
+
+function usage() {
+  echo "Usage: md5-hash FILEPATH [...FILEPATHS]"
+  echo ""
+  echo "  -c    Compare hashes"
+  echo "  -d    Print out hashes for each supplied filepath"
+}
+
+while getopts "cdh" OPT; do
+  case $OPT in
+    c)
+      COMPARE=1
+      ;;
+    d)
+      DEBUG=1
+      ;;
+    h)
+      usage
+      exit
+      ;;
+  esac
+done
+shift "$((OPTIND - 1))"
+
+if [[ -z "$1" ]]; then
+  echo "Need at least one file"
+  usage
+  exit 1
+fi
+
+if [[ $COMPARE -eq 1 ]]; then
+  if [[ $DEBUG -eq 1 ]]; then
+    md5 "$@" | awk '{print $4}'
+  fi
+
+  RESULT_LEN=$(md5 "$@" | awk '{print $4}' | uniq | wc -l)
+
+  if [[ $RESULT_LEN -ne 1 ]]; then
+    echo 'MD5 hashes DO NOT match!'
+  else
+    echo 'MD5 hashes match!'
+  fi
+else
+  md5 "$@" | awk '{print $4}'
+fi

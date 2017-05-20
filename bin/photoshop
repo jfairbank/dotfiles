@@ -1,0 +1,3 @@
+#!/bin/bash
+
+open -a "Adobe Photoshop CC 2015" $1

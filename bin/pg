@@ -1,0 +1,105 @@
+#!/bin/sh
+
+wanted_ver=$1
+no_restart=
+
+# is the version requested installed?
+brew ls --version postgresql-${wanted_ver} &>/dev/null
+if [[ $? -eq 0 ]] ; then
+  # yes, carry on
+  :
+else
+  # nope, so install it
+  echo -n "Installing PostgreSQL ${wanted_ver}... "
+  brew install postgresql-${wanted_ver} &>/tmp/brew.out
+  if [[ $? -eq 0 ]] ; then
+    echo "done"
+  else
+    echo "FAILED!"
+    cat /tmp/brew.out
+    exit
+  fi
+fi
+
+# is postgresql is running?
+for i in /usr/local/var/postgres/*
+do
+  check_ver=$(basename ${i})
+  is_running=$(ps -few | egrep -- "[p]ostgres.*-D.*${check_ver}")
+
+  if [[ -z ${is_running} ]] ; then
+    # nope, carry on
+    :
+  else
+    # it is. is it the requested version?
+    if [[ "${wanted_ver}" = "${check_ver}" ]] ; then
+      # yup, carry on
+      no_restart=t
+    else
+      # nope, so kill it
+      echo -n "Stopping PostgreSQL ${check_ver}... "
+      /usr/local/opt/postgresql-${check_ver}/bin/pg_ctl -D /usr/local/var/postgres/${check_ver} stop -w -mf &>/tmp/stop.out
+      if [[ $? -eq 0 ]] ; then
+        echo "done!"
+      else
+        echo "FAILED!"
+        cat /tmp/stop.out
+      fi
+    fi
+  fi
+done
+
+# what version is active?
+active_ver=$(/usr/bin/stat -f %Y /usr/local/bin/psql | cut -d\/ -f3 | cut -d\- -f2)
+
+# is the active version the requested version?
+if [[ "${active_ver}" = "${wanted_ver}" ]] ; then
+  # yup, carry on
+  :
+else
+  # nope, so deactivate it
+  echo -n "Deactivating PostgreSQL ${active_ver}... "
+  brew unlink --force --overwrite postgresql-${active_ver} &>/dev/null
+  echo "done!"
+  # and activate the correct version
+  echo -n "Activating PostgreSQL ${wanted_ver}... "
+  brew link --force --overwrite postgresql-${wanted_ver} &>/dev/null
+  echo "done!"
+fi
+
+# point to the correct data dir
+export PGDATA=/usr/local/var/postgres/${wanted_ver}
+
+# should we be starting a cluster?
+if [[ "${no_restart}" = "t" ]] ; then
+  # nope, carry on
+  :
+else
+  # yup. has the cluster been initialized?
+  if [[ ! -d ${PGDATA} ]] ; then
+    # nope, so let's do that
+    echo -n "Initializing PostgreSQL ${wanted_ver} cluster... "
+    mkdir ${PGDATA}
+    initdb -k ${PGDATA} &>/dev/null || initdb ${PGDATA} &>/dev/null
+    echo "done!"
+  else
+    # yup, carry on
+    :
+  fi
+  # start the cluster
+  echo -n "Starting PostgreSQL ${wanted_ver}... "
+  pg_ctl -D ${PGDATA} start &>/tmp/postmaster.out
+  if [[ $? -eq 0 ]] ; then
+    echo "done!"
+  else
+    echo "FAILED!"
+    cat /tmp/postmaster.out
+  fi
+  ret=1
+  while [[ ${ret} -eq 1 ]]
+  do
+    # wait for the cluster to be available before exiting
+    pg_isready -q
+    ret=$?
+  done
+fi

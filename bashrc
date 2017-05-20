@@ -3,7 +3,7 @@ function parse_git_branch_and_add_brackets {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
-function set_prompt() {
+function set_prompt_and_node_version() {
   output="$(parse_git_branch_and_add_brackets)"
 
   if [[ "$output" ]]; then
@@ -11,16 +11,31 @@ function set_prompt() {
   else
     PS1="\u:\W 🍔  "
   fi
+
+  # Set Node version
+  if [[ $PWD == $PREV_PWD ]]; then
+    return
+  fi
+
+  PREV_PWD=$PWD
+
+  if [[ -e ".nvmrc" ]]; then
+    nvm use
+  elif [[ -e "package.json" ]]; then
+    local node_version=$(jq -r '.engines.node' package.json)
+
+    if [[ "$node_version" != "null" ]]; then
+      nvm use "$node_version"
+    fi
+  fi
 }
 
-PROMPT_COMMAND=set_prompt
+PROMPT_COMMAND=set_prompt_and_node_version
 
 # Aliases
 alias ls='ls -G'
 alias ll='ls -l'
 alias png2b64='ruby -rbase64 -e '\''puts "data:image/png;base64,#{Base64.strict_encode64(ARGF.read)}"'\'''
-#alias serve='python -m SimpleHTTPServer'
-alias serve='ruby -run -ehttpd . -p8000'
 alias grep='grep --color=auto'
 alias ag='ag --ignore-dir target --pager="less -R"'
 alias gtags='gtags --options=$HOME/ctags'
@@ -28,15 +43,16 @@ alias trash='rmtrash'
 alias del='rmtrash'
 alias be='bundle exec'
 alias s='spotify'
+alias tmux="TERM=screen-256color-bce tmux"
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias r='npm run'
 
 # Vars
 export PATH="/usr/local/bin:$HOME/bin:$PATH"
-export BROWSER=chrome
 export POW_EXT_DOMAINS=dev,com
 export PYTHONSTARTUP=~/.pythonrc
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+export TERM=xterm-256color
+export EDITOR=vim
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
@@ -50,11 +66,3 @@ fi
 if [[ -f `which rbenv` ]]; then
   eval "$(rbenv init -)"
 fi
-
-# Gulp autocompletion
-if [[ -f `which gulp` ]]; then
-  eval "$(gulp --completion=bash)"
-fi
-
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && source "$HOME/.gvm/bin/gvm-init.sh"
