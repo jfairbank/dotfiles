@@ -14,6 +14,7 @@ function! BuildYCM(info)
     !./install.py --clang-completer --tern-completer
   endif
 endfunction
+" Disable for pluralsight
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
 function! BuildTern(info)
@@ -27,6 +28,7 @@ Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
+Plug 'kchmck/vim-coffee-script'
 
 Plug 'airblade/vim-rooter'
 Plug '/usr/local/opt/fzf'
@@ -72,6 +74,8 @@ Plug 'Quramy/vim-js-pretty-template'
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'gcorne/vim-sass-lint'
 Plug 'jaxbot/browserlink.vim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'sbdchd/neoformat'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -103,6 +107,7 @@ set exrc
 set signcolumn=yes
 
 " Omnifunc
+" Disable for pluralsight
 set omnifunc=syntaxcomplete#Complete
 
 " Handle CSS with background data pngs
@@ -222,7 +227,7 @@ let g:livepreview_previewer = 'Preview.app'
 
 " Elm
 " ElmCast/elm-vim
-let g:elm_format_autosave = 1
+let g:elm_format_autosave = 0
 let g:elm_detailed_complete = 1
 
 " Show list chars
@@ -238,12 +243,15 @@ autocmd BufEnter * lcd %:p:h
 
 " Tabbing for specific file types
 autocmd FileType java setlocal tabstop=4 shiftwidth=4
+autocmd FileType elm setlocal tabstop=4 shiftwidth=4 expandtab
 
 " Filetype syntax associations
 au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder set filetype=ruby
 au BufRead,BufNewFile *.jison set filetype=yacc
 au BufRead,BufNewFile *.jisonlex set filetype=javascript
 au BufRead,BufNewFile .eslintrc,.jshintrc,.babelrc set filetype=json
+au BufRead,BufNewFile *.cson set filetype=coffee
+au BufRead,BufNewFile *.pml set filetype=xml
 au BufRead,BufNewFile,BufWritePost *Spec.js set filetype=jasmine.javascript.jsx
 
 " Helper functions
@@ -254,7 +262,18 @@ endfunction
 " JavaScript
 let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
+let g:javascript_plugin_jsdoc = 1
 command Jest Dispatch jest
+" autocmd FileType javascript,javascript.jsx set formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ all
+" autocmd BufWritePre *.js :normal gggqG
+" autocmd BufWritePre *.js Neoformat
+" let g:neoformat_javascript_customprettier = {
+"             \ 'exe': 'prettier',
+"             \ 'args': ['--stdin', '--parser flow', '--single-quote', '--trailing-comma all'],
+"             \ 'stdin': 1,
+"             \ }
+
+let g:neoformat_enabled_javascript = ['customprettier']
 
 " Markdown
 " Auto wrap markdown
@@ -287,6 +306,7 @@ let g:UltiSnipsSnippetsDir             = '~/.vim/UltiSnips'
 let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 "let g:loaded_youcompleteme = 1
+" Disable for pluralsight
 let g:ycm_semantic_triggers = {
      \ 'elm' : ['.'],
      \}
@@ -307,6 +327,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*/target/*
 let g:ale_sign_error = '❌'
 let g:ale_sign_warning = '⚠️'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_javascript_flow_executable = 'node_modules/.bin/flow'
 
 augroup AutoAle
   autocmd!

@@ -5,7 +5,7 @@ if ARGV[0].nil?
 end
 
 prefixes = {
-  '1.6' => '/System/Library/Java/JavaVirtualMachines/1.6.0.jdk',
+  '1.6' => '/Library/Java/JavaVirtualMachines/1.6.0.jdk',
   '1.7' => '/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk',
   '1.8' => '/Library/Java/JavaVirtualMachines/jdk1.8.0_51.jdk'
 }
