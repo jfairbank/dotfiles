@@ -40,7 +40,7 @@ Plug 'digitaltoad/vim-jade'
 Plug 'groenewege/vim-less'
 Plug 'tpope/vim-rails'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 Plug 'vim-scripts/matchit.zip'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
@@ -76,6 +76,7 @@ Plug 'gcorne/vim-sass-lint'
 Plug 'jaxbot/browserlink.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'sbdchd/neoformat'
+Plug 'tpope/vim-obsession'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -105,6 +106,7 @@ set number
 set hlsearch
 set exrc
 set signcolumn=yes
+set incsearch
 
 " Omnifunc
 " Disable for pluralsight
@@ -125,6 +127,9 @@ let g:multi_cursor_quit_key='<Esc>'
 set laststatus=2
 set statusline+=%F
 
+" \ 'colorscheme': 'wombat',
+" \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+" \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath', 'modified' ] ],
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'mode_map': { 'c': 'NORMAL' },
@@ -251,7 +256,8 @@ au BufRead,BufNewFile *.jison set filetype=yacc
 au BufRead,BufNewFile *.jisonlex set filetype=javascript
 au BufRead,BufNewFile .eslintrc,.jshintrc,.babelrc set filetype=json
 au BufRead,BufNewFile *.cson set filetype=coffee
-au BufRead,BufNewFile *.pml set filetype=xml
+au BufRead,BufNewFile *.pml call SetPmlOptions()
+au BufRead,BufNewFile *.adoc call SetAdocOptions()
 au BufRead,BufNewFile,BufWritePost *Spec.js set filetype=jasmine.javascript.jsx
 
 " Helper functions
@@ -259,11 +265,22 @@ function! StrTrim(txt)
   return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
 endfunction
 
+function! SetPmlOptions()
+  set filetype=xml
+  set spell
+  syntax spell toplevel
+endfunction
+
+function! SetAdocOptions()
+  set spell
+  syntax spell toplevel
+endfunction
+
 " JavaScript
 let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
-command Jest Dispatch jest
+command! Jest Dispatch jest
 " autocmd FileType javascript,javascript.jsx set formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ all
 " autocmd BufWritePre *.js :normal gggqG
 " autocmd BufWritePre *.js Neoformat
@@ -278,6 +295,7 @@ let g:neoformat_enabled_javascript = ['customprettier']
 " Markdown
 " Auto wrap markdown
 au BufRead,BufNewFile *.md setlocal textwidth=80 wrap
+
 " Use octodown as default build command for Markdown files
 " autocmd FileType markdown let b:dispatch = 'octodown --live-reload %'
 " let g:vim_markdown_fenced_languages = ['js=javascript']
@@ -370,6 +388,8 @@ nmap <leader>e <Plug>(ale_previous_wrap)
 nmap <leader>f <Plug>(ale_next_wrap)
 
 map <C-p> :FZF<CR>
+
+map <leader>k :ALEDetail<CR>
 
 " Colors
 " ======
