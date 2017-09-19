@@ -30,6 +30,9 @@ Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 Plug 'kchmck/vim-coffee-script'
 
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/tsuquyomi'
+
 Plug 'airblade/vim-rooter'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -48,6 +51,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
+" Plug 'mileszs/ack.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'trotzig/import-js'
@@ -57,7 +61,8 @@ Plug 'elzr/vim-json'
 Plug 'wizicer/vim-jison'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
-Plug 'airblade/vim-gitgutter', { 'on': [] }
+" Plug 'airblade/vim-gitgutter', { 'on': [] }
+Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -77,6 +82,8 @@ Plug 'jaxbot/browserlink.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-obsession'
+Plug 'kana/vim-textobj-user'
+Plug 'nelstrom/vim-textobj-rubyblock'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -111,6 +118,9 @@ set incsearch
 " Omnifunc
 " Disable for pluralsight
 set omnifunc=syntaxcomplete#Complete
+
+" matchit for vim-textobj-rubyblock
+runtime macros/matchit.vim
 
 " Handle CSS with background data pngs
 set synmaxcol=200
@@ -235,6 +245,9 @@ let g:livepreview_previewer = 'Preview.app'
 let g:elm_format_autosave = 0
 let g:elm_detailed_complete = 1
 
+" Dispatch
+let g:dispatch_tmux_height = 20
+
 " Show list chars
 "set list
 "set listchars=tab:>-,trail:~,extends:>,precedes:<
@@ -342,8 +355,10 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*/target/*
 
 " Ale
 " ===
-let g:ale_sign_error = '❌'
-let g:ale_sign_warning = '⚠️'
+" let g:ale_sign_error = '❌'
+" let g:ale_sign_warning = '⚠️'
+" let g:ale_sign_error = '⨉'
+" let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_javascript_flow_executable = 'node_modules/.bin/flow'
 
@@ -353,8 +368,18 @@ augroup AutoAle
 augroup END
 
 " Rooter
-" =====
+" ======
 let g:rooter_silent_chdir = 1
+
+" Ack.vim
+" =======
+" if executable('ag')
+"   let g:ackprg = 'ag --vimgrep'
+" endif
+" cnoreabbrev ag Ack
+" cnoreabbrev aG Ack
+" cnoreabbrev Ag Ack
+" cnoreabbrev AG Ack  
 
 " FZF
 " ===
@@ -366,30 +391,43 @@ autocmd VimEnter * command! -bang -nargs=* Ag
   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \                 <bang>0)
 
+" splitjoin
+" =========
+
+let g:splitjoin_trailing_comma = 1
+
 " Mappings
 " ========
 
 " Toggle nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
-" Find current buffer in nerdtree
-map <leader>r :NERDTreeFind<CR>
-
 " Find current file in nerdtree
 nmap ,n :NERDTreeFind<CR>
 
-" Insert newline with Ctrl+C in insert mode
-imap <C-c> <CR><Esc>O
-
-" Do SyntasticCheck
-" nmap <leader>sc :SyntasticCheck<CR>
-
+" Find errors with ALE
 nmap <leader>e <Plug>(ale_previous_wrap)
 nmap <leader>f <Plug>(ale_next_wrap)
 
+" ALE error details
+map <leader>k :ALEDetail<CR>
+
+" Ctrl+p fuzzy file search
 map <C-p> :FZF<CR>
 
-map <leader>k :ALEDetail<CR>
+" Quickfix close and open
+nmap <leader>cx :cclose<CR>
+nmap <leader>co :copen<CR>
+
+" Loclist
+nmap <leader>lc :lclose<CR>
+nmap <leader>lo :lopen<CR>
+
+" Redraw garbled buffers
+nmap <leader>r :redraw!<CR>
+
+" AG search word under cursor
+nmap <silent> <leader>ag :Ag <c-r><c-w><cr>
 
 " Colors
 " ======
