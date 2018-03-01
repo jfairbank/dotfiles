@@ -29,6 +29,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 Plug 'kchmck/vim-coffee-script'
+Plug 'prettier/vim-prettier'
 
 Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
@@ -47,15 +48,14 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'vim-scripts/matchit.zip'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
-Plug 'gabrielelana/vim-markdown'
+" Plug 'gabrielelana/vim-markdown'
+Plug 'plasticboy/vim-markdown'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
 " Plug 'mileszs/ack.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
-Plug 'trotzig/import-js'
-Plug 'mlr-msft/vim-loves-dafny'
 Plug 'claco/jasmine.vim'
 Plug 'elzr/vim-json'
 Plug 'wizicer/vim-jison'
@@ -63,6 +63,7 @@ Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 " Plug 'airblade/vim-gitgutter', { 'on': [] }
 Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/vim-svngutter'
 Plug 'itchyny/lightline.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -72,7 +73,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'craigdallimore/vim-jest-cli'
 Plug 'wesQ3/vim-windowswap'
 Plug 'jpalardy/vim-slime'
-Plug 'elixir-lang/vim-elixir'
+Plug 'elixir-editors/vim-elixir'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'Quramy/vim-js-pretty-template'
@@ -84,6 +85,9 @@ Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-obsession'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'slashmili/alchemist.vim'
+Plug 'KabbAmine/vCoolor.vim'
+" Plug 'mhinz/vim-mix-format'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -114,6 +118,8 @@ set hlsearch
 set exrc
 set signcolumn=yes
 set incsearch
+set wildmode=longest,list,full
+set wildmenu
 
 " Omnifunc
 " Disable for pluralsight
@@ -132,6 +138,11 @@ let g:multi_cursor_next_key='<C-m>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
+
+" vCoolor
+let g:vcoolor_disable_mappings = 1
+
+map <leader>cr :VCoolor<CR>
 
 " itchyny/lightline.vim
 set laststatus=2
@@ -242,11 +253,38 @@ let g:livepreview_previewer = 'Preview.app'
 
 " Elm
 " ElmCast/elm-vim
-let g:elm_format_autosave = 0
+let g:elm_format_autosave = 1
 let g:elm_detailed_complete = 1
+
+" Elixir
+" let g:mix_format_on_save = 1
+augroup fmt
+  autocmd!
+  autocmd BufWritePre *.ex,*.exs undojoin | Neoformat
+augroup END
 
 " Dispatch
 let g:dispatch_tmux_height = 20
+
+" Goyo
+function! s:goyo_enter()
+  silent !tmux set status off
+  silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+endfunction
+
+function! s:goyo_leave()
+  silent !tmux set status on
+  silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  set showmode
+  set showcmd
+  set scrolloff=5
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " Show list chars
 "set list
@@ -257,7 +295,7 @@ let g:dispatch_tmux_height = 20
 autocmd VimEnter * if !argc() | NERDTree | endif
 autocmd VimEnter * wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-autocmd BufEnter * lcd %:p:h
+" autocmd BufEnter * lcd %:p:h
 
 " Tabbing for specific file types
 autocmd FileType java setlocal tabstop=4 shiftwidth=4
@@ -289,6 +327,24 @@ function! SetAdocOptions()
   syntax spell toplevel
 endfunction
 
+" Additional tab functionality
+
+function! TabCloseRight(bang)
+  let cur=tabpagenr()
+  while cur < tabpagenr('$')
+    exe 'tabclose' . a:bang . ' ' . (cur + 1)
+  endwhile
+endfunction
+
+function! TabCloseLeft(bang)
+  while tabpagenr() > 1
+    exe 'tabclose' . a:bang . ' 1'
+  endwhile
+endfunction
+
+command! -bang Tabcloseright call TabCloseRight('<bang>')
+command! -bang Tabcloseleft call TabCloseLeft('<bang>')
+
 " JavaScript
 let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
@@ -303,7 +359,9 @@ command! Jest Dispatch jest
 "             \ 'stdin': 1,
 "             \ }
 
-let g:neoformat_enabled_javascript = ['customprettier']
+" let g:neoformat_enabled_javascript = ['customprettier']
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.json PrettierAsync
 
 " Markdown
 " Auto wrap markdown
@@ -428,6 +486,9 @@ nmap <leader>r :redraw!<CR>
 
 " AG search word under cursor
 nmap <silent> <leader>ag :Ag <c-r><c-w><cr>
+
+" Dispatch
+nmap <leader>di :Dispatch<cr>
 
 " Colors
 " ======

@@ -1,0 +1,15 @@
+snippet lam "lambda" b
+\\${1:_} ->
+    ${2:body}
+endsnippet
+
+snippet des "describe" b
+describe "${1:description}"
+    [$0]
+endsnippet
+
+snippet test "test" i
+test "${1:description}" <|
+    \_ ->
+        ${0:body}
+endsnippet
