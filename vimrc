@@ -1,3 +1,5 @@
+source ~/.vimrc.local
+
 " Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -48,10 +50,11 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'vim-scripts/matchit.zip'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
-" Plug 'gabrielelana/vim-markdown'
-Plug 'plasticboy/vim-markdown'
+Plug 'gabrielelana/vim-markdown'
+" Plug 'plasticboy/vim-markdown'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
+Plug 'jaxbot/github-issues.vim'
 Plug 'rking/ag.vim'
 " Plug 'mileszs/ack.vim'
 Plug 'rust-lang/rust.vim'
@@ -65,6 +68,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/vim-svngutter'
 Plug 'itchyny/lightline.vim'
+" Plug 'lambdalisue/battery.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'digitaltoad/vim-pug'
@@ -88,6 +92,8 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'slashmili/alchemist.vim'
 Plug 'KabbAmine/vCoolor.vim'
 " Plug 'mhinz/vim-mix-format'
+Plug 'kristijanhusak/vim-carbon-now-sh'
+Plug 'ryanoasis/vim-devicons'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -148,9 +154,15 @@ map <leader>cr :VCoolor<CR>
 set laststatus=2
 set statusline+=%F
 
+" lambdalisue/battery.vim
+" let g:battery#update_tabline = 1    " For tabline.
+" let g:battery#update_statusline = 1 " For statusline.
+
 " \ 'colorscheme': 'wombat',
 " \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
 " \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath', 'modified' ] ],
+" Component function
+" \   'battery': 'battery#component',
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'mode_map': { 'c': 'NORMAL' },
@@ -205,12 +217,18 @@ function! LightLineFugitive()
   return ''
 endfunction
 
-function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+" function! LightLineFileformat()
+"   return winwidth(0) > 70 ? &fileformat : ''
+" endfunction
+function! MyFileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
+" function! LightLineFiletype()
+"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+" endfunction
 function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
 function! LightLineFileencoding()
@@ -360,7 +378,7 @@ command! Jest Dispatch jest
 "             \ }
 
 " let g:neoformat_enabled_javascript = ['customprettier']
-let g:prettier#autoformat = 0
+let g:prettier#autoformat = 1
 autocmd BufWritePre *.js,*.json PrettierAsync
 
 " Markdown
@@ -422,11 +440,18 @@ let g:ale_javascript_flow_executable = 'node_modules/.bin/flow'
 
 augroup AutoAle
   autocmd!
-  autocmd User ALELint call lightline#update()
+  autocmd User ALELint call UpdateLightline()
 augroup END
+
+function! UpdateLightline()
+  if exists('#lightline')
+    call lightline#update()
+  endif
+endfunction
 
 " Rooter
 " ======
+" let g:rooter_manual_only = 1
 let g:rooter_silent_chdir = 1
 
 " Ack.vim
@@ -448,6 +473,39 @@ autocmd VimEnter * command! -bang -nargs=* Ag
   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \                 <bang>0)
+
+" Files + devicons
+function! Fzf_dev()
+  " let l:fzf_files_options = '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
+  let l:fzf_files_options = '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify -t github | head -'.&lines.'"'
+  function! s:files()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      call add(l:result, printf('%s %s', l:icon, l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(item)
+    let l:parts = split(a:item, ' ')
+    let l:file_path = get(l:parts, 1, '')
+    execute 'silent e' l:file_path
+  endfunction
+
+  call fzf#run({
+        \ 'source': <sid>files(),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m ' . l:fzf_files_options,
+        \ 'down':    '40%' })
+endfunction
 
 " splitjoin
 " =========
@@ -471,7 +529,8 @@ nmap <leader>f <Plug>(ale_next_wrap)
 map <leader>k :ALEDetail<CR>
 
 " Ctrl+p fuzzy file search
-map <C-p> :FZF<CR>
+" map <C-p> :FZF<CR>
+map <C-p> :call Fzf_dev()<CR>
 
 " Quickfix close and open
 nmap <leader>cx :cclose<CR>
@@ -495,9 +554,11 @@ nmap <leader>di :Dispatch<cr>
 
 " Dark
 set background=dark
+colorscheme nova
+
 " set background=light
 " colorscheme solarized
-colorscheme nova
+
 "colorscheme alduin
 "colorscheme lucius
 "let g:lucius_style = 'dark'
