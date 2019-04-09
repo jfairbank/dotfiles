@@ -28,7 +28,6 @@ Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'prettier/vim-prettier'
@@ -54,6 +53,7 @@ Plug 'gabrielelana/vim-markdown'
 " Plug 'plasticboy/vim-markdown'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'jaxbot/github-issues.vim'
 Plug 'rking/ag.vim'
 " Plug 'mileszs/ack.vim'
@@ -73,6 +73,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'digitaltoad/vim-pug'
 Plug 'ElmCast/elm-vim'
+Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-dispatch'
 Plug 'craigdallimore/vim-jest-cli'
 Plug 'wesQ3/vim-windowswap'
@@ -81,19 +82,23 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'Quramy/vim-js-pretty-template'
-Plug 'beloglazov/vim-online-thesaurus'
+" Plug 'beloglazov/vim-online-thesaurus'
+Plug 'Ron89/thesaurus_query.vim'
 Plug 'gcorne/vim-sass-lint'
-Plug 'jaxbot/browserlink.vim'
+" Plug 'jaxbot/browserlink.vim'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'jparise/vim-graphql'
 Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-obsession'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'slashmili/alchemist.vim'
+" Plug 'slashmili/alchemist.vim'
 Plug 'KabbAmine/vCoolor.vim'
 " Plug 'mhinz/vim-mix-format'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'ryanoasis/vim-devicons'
+Plug 'janko-m/vim-test'
+Plug 'benmills/vimux'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -126,6 +131,7 @@ set signcolumn=yes
 set incsearch
 set wildmode=longest,list,full
 set wildmenu
+set switchbuf=useopen,usetab
 
 " Omnifunc
 " Disable for pluralsight
@@ -158,13 +164,28 @@ set statusline+=%F
 " let g:battery#update_tabline = 1    " For tabline.
 " let g:battery#update_statusline = 1 " For statusline.
 
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+
 " \ 'colorscheme': 'wombat',
 " \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
 " \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath', 'modified' ] ],
 " Component function
 " \   'battery': 'battery#component',
+" \   'ale': 'ALEGetStatusLine',
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'nova',
       \ 'mode_map': { 'c': 'NORMAL' },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
@@ -183,7 +204,7 @@ let g:lightline = {
       \   'mode': 'LightLineMode',
       \ },
       \ 'component_expand': {
-      \   'ale': 'ALEGetStatusLine',
+      \   'ale': 'LinterStatus',
       \ },
       \ 'component_type': {
       \   'ale': 'error',
@@ -400,6 +421,11 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " matze/vim-move
 let g:move_key_modifier = 'C'
 
+" Ron89/thesaurus_query.vim
+" =========================
+let g:tq_map_keys = 0
+nnoremap <leader>K :ThesaurusQueryReplaceCurrentWord<CR>
+
 " YouCompleteMe and UltiSnips
 " (https://medium.com/brigade-engineering/sharpen-your-vim-with-snippets-767b693886db)
 let g:SuperTabDefaultCompletionType    = '<C-n>'
@@ -451,8 +477,19 @@ endfunction
 
 " Rooter
 " ======
-" let g:rooter_manual_only = 1
+let g:rooter_manual_only = 1
 let g:rooter_silent_chdir = 1
+
+" vim-test
+" ========
+let test#strategy = "vimux"
+
+augroup test
+  autocmd!
+  autocmd BufWrite * if test#exists() |
+    \   TestFile |
+    \ endif
+augroup END
 
 " Ack.vim
 " =======
@@ -476,11 +513,23 @@ autocmd VimEnter * command! -bang -nargs=* Ag
 
 " Files + devicons
 function! Fzf_dev()
-  " let l:fzf_files_options = '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
-  let l:fzf_files_options = '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify -t github | head -'.&lines.'"'
+  let s:actions = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit' }
+
+  " let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v --preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
+  " let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v --preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify -t github | head -'.&lines.'"'
+  let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v'
+
   function! s:files()
     let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
     return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:action_for(key, ...)
+    let default = a:0 ? a:1 : 'e'
+    return get(s:actions, a:key, default)
   endfunction
 
   function! s:prepend_icon(candidates)
@@ -494,15 +543,17 @@ function! Fzf_dev()
     return l:result
   endfunction
 
-  function! s:edit_file(item)
-    let l:parts = split(a:item, ' ')
+  function! s:edit_file(lines)
+    let l:cmd = s:action_for(a:lines[0])
+    let l:parts = split(a:lines[1], ' ')
     let l:file_path = get(l:parts, 1, '')
-    execute 'silent e' l:file_path
+    " execute 'silent e' l:file_path
+    execute 'silent '.cmd l:file_path
   endfunction
 
   call fzf#run({
         \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
+        \ 'sink*':   function('s:edit_file'),
         \ 'options': '-m ' . l:fzf_files_options,
         \ 'down':    '40%' })
 endfunction
@@ -529,8 +580,8 @@ nmap <leader>f <Plug>(ale_next_wrap)
 map <leader>k :ALEDetail<CR>
 
 " Ctrl+p fuzzy file search
-" map <C-p> :FZF<CR>
-map <C-p> :call Fzf_dev()<CR>
+map <C-p> :FZF<CR>
+" map <C-p> :call Fzf_dev()<CR>
 
 " Quickfix close and open
 nmap <leader>cx :cclose<CR>
