@@ -81,6 +81,7 @@ export TERM=xterm-256color
 # export TERM=screen-256color
 export EDITOR=vim
 export ERL_AFLAGS="-kernel shell_history enabled"
+export GPG_TTY=$(tty)
 
 # TMATE Functions
 # ===============
