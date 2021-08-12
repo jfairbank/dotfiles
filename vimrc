@@ -16,7 +16,6 @@ function! BuildYCM(info)
     !./install.py --clang-completer --tern-completer
   endif
 endfunction
-" Disable for pluralsight
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
 function! BuildTern(info)
@@ -30,11 +29,9 @@ Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'prettier/vim-prettier'
-
-Plug 'leafgarland/typescript-vim'
-Plug 'Quramy/tsuquyomi'
-
+" Plug 'prettier/vim-prettier'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'Quramy/tsuquyomi'
 Plug 'airblade/vim-rooter'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -49,6 +46,8 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'vim-scripts/matchit.zip'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
+" Plug 'antew/vim-elm-language-server'
+" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'gabrielelana/vim-markdown'
 " Plug 'plasticboy/vim-markdown'
 Plug 'Raimondi/delimitMate'
@@ -62,11 +61,12 @@ Plug 'tpope/vim-abolish'
 Plug 'claco/jasmine.vim'
 Plug 'elzr/vim-json'
 Plug 'wizicer/vim-jison'
-Plug 'suan/vim-instant-markdown'
+" Plug 'suan/vim-instant-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'junegunn/goyo.vim'
 " Plug 'airblade/vim-gitgutter', { 'on': [] }
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/vim-svngutter'
+" Plug 'vim-scripts/vim-svngutter'
 Plug 'itchyny/lightline.vim'
 " Plug 'lambdalisue/battery.vim'
 Plug 'AndrewRadev/splitjoin.vim'
@@ -92,13 +92,20 @@ Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-obsession'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'vim-ruby/vim-ruby'
 " Plug 'slashmili/alchemist.vim'
 Plug 'KabbAmine/vCoolor.vim'
 " Plug 'mhinz/vim-mix-format'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'ryanoasis/vim-devicons'
 Plug 'janko-m/vim-test'
+Plug 'jgdavey/tslime.vim'
 Plug 'benmills/vimux'
+Plug 'brooth/far.vim'
+Plug 'amadeus/vim-convert-color-to'
+Plug 'chrisbra/Colorizer'
+Plug 'tpope/vim-eunuch'
+Plug 'rhysd/reply.vim'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -108,6 +115,7 @@ Plug 'queyenth/oxeded.vim'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'AlessandroYorba/Alduin'
 Plug 'trevordmiller/nova-vim'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -117,6 +125,7 @@ execute pathogen#infect()
 " General Config
 syntax on
 set t_Co=256
+" set termguicolors
 filetype plugin indent on
 set encoding=utf-8
 scriptencoding utf-8
@@ -132,21 +141,21 @@ set incsearch
 set wildmode=longest,list,full
 set wildmenu
 set switchbuf=useopen,usetab
+set redrawtime=5000
 
 " Omnifunc
-" Disable for pluralsight
 set omnifunc=syntaxcomplete#Complete
 
 " matchit for vim-textobj-rubyblock
 runtime macros/matchit.vim
 
 " Handle CSS with background data pngs
-set synmaxcol=200
+set synmaxcol=1000
 
 " terryma/vim-multiple-cursors
-let g:multi_cursor_start_key='<C-m>'
+let g:multi_cursor_start_key='<C-n>'
 let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-m>'
+let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
@@ -302,6 +311,9 @@ augroup fmt
   autocmd BufWritePre *.ex,*.exs undojoin | Neoformat
 augroup END
 
+" Far
+let g:far#source = 'ag'
+
 " Dispatch
 let g:dispatch_tmux_height = 20
 
@@ -331,7 +343,7 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " Ensure start in buffer
 " autocmd VimEnter * NERDTree
-autocmd VimEnter * if !argc() | NERDTree | endif
+" autocmd VimEnter * if !argc() | NERDTree | endif
 autocmd VimEnter * wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " autocmd BufEnter * lcd %:p:h
@@ -384,6 +396,12 @@ endfunction
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
+" Copy syntax highlighting for JS code
+
+command! -range SyntaxJs <line1>,<line2>w !highlight -s seashell -O rtf -S js -K 60 -k Hack | tr -d '\n' | pbcopy
+command! -range SyntaxJson <line1>,<line2>w !highlight -s seashell -O rtf -S json -K 60 -k Hack | tr -d '\n' | pbcopy
+command! -range SyntaxJsx <line1>,<line2>w !highlight -s seashell -O rtf -S jsx -K 60 -k Hack | tr -d '\n' | pbcopy
+
 " JavaScript
 let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
@@ -399,8 +417,11 @@ command! Jest Dispatch jest
 "             \ }
 
 " let g:neoformat_enabled_javascript = ['customprettier']
-let g:prettier#autoformat = 1
-autocmd BufWritePre *.js,*.json PrettierAsync
+" let g:prettier#autoformat = 1
+" autocmd BufWritePre *.js,*.json PrettierAsync
+let g:ale_fixers = {'javascript': ['prettier', 'prettier-standard', 'eslint']}
+" let g:ale_linters = {'javascript': ['']}
+let g:ale_fix_on_save = 0
 
 " Markdown
 " Auto wrap markdown
@@ -412,7 +433,7 @@ au BufRead,BufNewFile *.md setlocal textwidth=80 wrap
 " let g:markdown_fenced_languages = ['js=javascript']
 
 " Slime
-let g:slime_target = 'tmux'
+let g:slime_target = 'vimterminal'
 
 " Close scratch preview
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
@@ -439,10 +460,6 @@ let g:UltiSnipsSnippetsDir             = '~/.vim/UltiSnips'
 let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 "let g:loaded_youcompleteme = 1
-" Disable for pluralsight
-let g:ycm_semantic_triggers = {
-     \ 'elm' : ['.'],
-     \}
 
 " " Display line at col 80
 " if exists('+colorcolumn')
@@ -475,21 +492,43 @@ function! UpdateLightline()
   endif
 endfunction
 
+" Surround
+" ========
+" Use # to get a variable interpolation (inside of a string)}
+" ysiw#   Wrap the token under the cursor in #{}
+" Thanks to http://git.io/_XqKzQ
+let g:surround_35  = "#{\r}"
+let g:surround_36  = "${\r}"
+
 " Rooter
 " ======
 let g:rooter_manual_only = 1
 let g:rooter_silent_chdir = 1
+" let g:rooter_patterns = ['Rakefile', '.git/']
+
+" Chdir (built-in)
+" ================
+" set autochdir
 
 " vim-test
 " ========
-let test#strategy = "vimux"
+" let test#strategy = "vimux"
+let test#strategy = "tslime"
+" let test#strategy = "vimterminal"
+let test#vim#term_position = "vertical"
 
-augroup test
-  autocmd!
-  autocmd BufWrite * if test#exists() |
-    \   TestFile |
-    \ endif
-augroup END
+nmap <silent> <leader>tn :TestNearest<cr>
+nmap <silent> <leader>tf :TestFile<cr>
+nmap <silent> <leader>ts :TestSuite<cr>
+nmap <silent> <leader>tl :TestLast<cr>
+nmap <silent> <leader>tg :TestVisit<cr>
+
+" augroup test
+"   autocmd!
+"   autocmd BufWrite * if test#exists() |
+"     \   TestFile |
+"     \ endif
+" augroup END
 
 " Ack.vim
 " =======
@@ -500,6 +539,19 @@ augroup END
 " cnoreabbrev aG Ack
 " cnoreabbrev Ag Ack
 " cnoreabbrev AG Ack  
+
+" Grep
+" ====
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " " ag is fast enough that CtrlP doesn't need to cache
+  " let g:ctrlp_use_caching = 0
+endif
 
 " FZF
 " ===
@@ -567,7 +619,7 @@ let g:splitjoin_trailing_comma = 1
 " ========
 
 " Toggle nerdtree
-map <C-n> :NERDTreeToggle<CR>
+nmap <leader>n :NERDTreeToggle<CR>
 
 " Find current file in nerdtree
 nmap ,n :NERDTreeFind<CR>
@@ -580,7 +632,8 @@ nmap <leader>f <Plug>(ale_next_wrap)
 map <leader>k :ALEDetail<CR>
 
 " Ctrl+p fuzzy file search
-map <C-p> :FZF<CR>
+" map <C-p> :FZF<CR>
+nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --exclude-standard --others --cached')."\<cr>"
 " map <C-p> :call Fzf_dev()<CR>
 
 " Quickfix close and open
@@ -606,6 +659,9 @@ nmap <leader>di :Dispatch<cr>
 " Dark
 set background=dark
 colorscheme nova
+" let g:gruvbox_italic=1
+" let g:gruvbox_contrast_dark='hard'
+" colorscheme gruvbox
 
 " set background=light
 " colorscheme solarized
