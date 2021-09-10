@@ -1,37 +1,40 @@
-source ~/.vimrc.local
+" Load any local/private info, tokens, etc. not meant for storage in version
+" control
+if !empty(glob("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
 
-" Vundle
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" ------------------------------------------------------------------------------
+
+" Plugins
+" =======
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'ervandew/supertab'
+" Helper functions
 
 function! BuildYCM(info)
   if a:info.status == 'installed' || a:info.force
     !./install.py --clang-completer --tern-completer
   endif
 endfunction
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
 function! BuildTern(info)
   if a:info.status == 'installed' || a:info.force
     !npm install
   endif
 endfunction
-Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'kchmck/vim-coffee-script'
-" Plug 'prettier/vim-prettier'
-" Plug 'leafgarland/typescript-vim'
-" Plug 'Quramy/tsuquyomi'
 Plug 'airblade/vim-rooter'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -42,33 +45,22 @@ Plug 'digitaltoad/vim-jade'
 Plug 'groenewege/vim-less'
 Plug 'tpope/vim-rails'
 Plug 'mustache/vim-mustache-handlebars'
-" Plug 'Yggdroot/indentLine'
 Plug 'vim-scripts/matchit.zip'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
-" Plug 'antew/vim-elm-language-server'
-" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'gabrielelana/vim-markdown'
-" Plug 'plasticboy/vim-markdown'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'jaxbot/github-issues.vim'
-Plug 'rking/ag.vim'
-" Plug 'mileszs/ack.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'claco/jasmine.vim'
 Plug 'elzr/vim-json'
 Plug 'wizicer/vim-jison'
-" Plug 'suan/vim-instant-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'junegunn/goyo.vim'
-" Plug 'airblade/vim-gitgutter', { 'on': [] }
 Plug 'airblade/vim-gitgutter'
-" Plug 'vim-scripts/vim-svngutter'
 Plug 'itchyny/lightline.vim'
-" Plug 'lambdalisue/battery.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'digitaltoad/vim-pug'
@@ -82,30 +74,41 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'Quramy/vim-js-pretty-template'
-" Plug 'beloglazov/vim-online-thesaurus'
 Plug 'Ron89/thesaurus_query.vim'
 Plug 'gcorne/vim-sass-lint'
-" Plug 'jaxbot/browserlink.vim'
-Plug 'neovimhaskell/haskell-vim'
 Plug 'jparise/vim-graphql'
 Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-obsession'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'vim-ruby/vim-ruby'
-" Plug 'slashmili/alchemist.vim'
 Plug 'KabbAmine/vCoolor.vim'
-" Plug 'mhinz/vim-mix-format'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'ryanoasis/vim-devicons'
 Plug 'janko-m/vim-test'
 Plug 'jgdavey/tslime.vim'
 Plug 'benmills/vimux'
-Plug 'brooth/far.vim'
 Plug 'amadeus/vim-convert-color-to'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-eunuch'
 Plug 'rhysd/reply.vim'
+Plug 'gpanders/vim-medieval'
+" Plug 'gabrielelana/vim-markdown'
+" Plug 'prettier/vim-prettier'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'Quramy/tsuquyomi'
+" Plug 'Yggdroot/indentLine'
+" Plug 'antew/vim-elm-language-server'
+" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+" Plug 'plasticboy/vim-markdown'
+" Plug 'rking/ag.vim'
+" Plug 'suan/vim-instant-markdown'
+" Plug 'vim-scripts/vim-svngutter'
+" Plug 'beloglazov/vim-online-thesaurus'
+" Plug 'jaxbot/browserlink.vim'
+" Plug 'slashmili/alchemist.vim'
+" Plug 'mhinz/vim-mix-format'
+" Plug 'brooth/far.vim'
 
 " Colorscheme plugins
 Plug 'altercation/vim-colors-solarized'
@@ -119,13 +122,14 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+" ------------------------------------------------------------------------------
+
 " Pathogen
 execute pathogen#infect()
 
 " General Config
 syntax on
 set t_Co=256
-" set termguicolors
 filetype plugin indent on
 set encoding=utf-8
 scriptencoding utf-8
@@ -169,10 +173,6 @@ map <leader>cr :VCoolor<CR>
 set laststatus=2
 set statusline+=%F
 
-" lambdalisue/battery.vim
-" let g:battery#update_tabline = 1    " For tabline.
-" let g:battery#update_statusline = 1 " For statusline.
-
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
 
@@ -186,13 +186,6 @@ function! LinterStatus() abort
     \)
 endfunction
 
-
-" \ 'colorscheme': 'wombat',
-" \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-" \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath', 'modified' ] ],
-" Component function
-" \   'battery': 'battery#component',
-" \   'ale': 'ALEGetStatusLine',
 let g:lightline = {
       \ 'colorscheme': 'nova',
       \ 'mode_map': { 'c': 'NORMAL' },
@@ -250,13 +243,10 @@ endfunction
 " function! LightLineFileformat()
 "   return winwidth(0) > 70 ? &fileformat : ''
 " endfunction
-function! MyFileformat()
+function! LightLineFileformat()
   return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
-" function! LightLineFiletype()
-"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-" endfunction
 function! LightLineFiletype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
@@ -338,8 +328,8 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " Show list chars
-"set list
-"set listchars=tab:>-,trail:~,extends:>,precedes:<
+" set list
+" set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 " Ensure start in buffer
 " autocmd VimEnter * NERDTree
@@ -419,18 +409,23 @@ command! Jest Dispatch jest
 " let g:neoformat_enabled_javascript = ['customprettier']
 " let g:prettier#autoformat = 1
 " autocmd BufWritePre *.js,*.json PrettierAsync
-let g:ale_fixers = {'javascript': ['prettier', 'prettier-standard', 'eslint']}
+let g:ale_fixers = {
+  \ 'javascript': ['prettier', 'prettier-standard', 'eslint'],
+  \ 'typescriptreact': ['prettier', 'prettier-standard', 'eslint'],
+  \ 'typescript': ['prettier', 'prettier-standard', 'eslint']
+  \ }
 " let g:ale_linters = {'javascript': ['']}
 let g:ale_fix_on_save = 0
 
 " Markdown
+" ========
+
 " Auto wrap markdown
 au BufRead,BufNewFile *.md setlocal textwidth=80 wrap
-
-" Use octodown as default build command for Markdown files
-" autocmd FileType markdown let b:dispatch = 'octodown --live-reload %'
-" let g:vim_markdown_fenced_languages = ['js=javascript']
-" let g:markdown_fenced_languages = ['js=javascript']
+" Highlight code blocks
+let g:markdown_fenced_languages = ['javascript']
+" Execute code blocks
+let g:medieval_langs = ['javascript=node']
 
 " Slime
 let g:slime_target = 'vimterminal'
@@ -455,13 +450,13 @@ let g:UltiSnipsExpandTrigger           = '<tab>'
 let g:UltiSnipsJumpForwardTrigger      = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
 let g:UltiSnipsSnippetsDir             = '~/.vim/UltiSnips'
-"let g:UltiSnipsSnippetDirectories      = ['UltiSnips']
-"let g:UltiSnipsDontReverseSearchPath   = '1'
+" let g:UltiSnipsSnippetDirectories      = ['UltiSnips']
+" let g:UltiSnipsDontReverseSearchPath   = '1'
 let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
-"let g:loaded_youcompleteme = 1
+" let g:loaded_youcompleteme = 1
 
-" " Display line at col 80
+" Display line at col 80
 " if exists('+colorcolumn')
 "   let &colorcolumn = "80"
 "   hi ColorColumn ctermbg=darkgray guibg=#063541
@@ -512,10 +507,10 @@ let g:rooter_silent_chdir = 1
 
 " vim-test
 " ========
-" let test#strategy = "vimux"
-let test#strategy = "tslime"
+let test#strategy = "vimux"
+" let test#strategy = "tslime"
 " let test#strategy = "vimterminal"
-let test#vim#term_position = "vertical"
+" let test#vim#term_position = "vertical"
 
 nmap <silent> <leader>tn :TestNearest<cr>
 nmap <silent> <leader>tf :TestFile<cr>
@@ -523,34 +518,11 @@ nmap <silent> <leader>ts :TestSuite<cr>
 nmap <silent> <leader>tl :TestLast<cr>
 nmap <silent> <leader>tg :TestVisit<cr>
 
-" augroup test
-"   autocmd!
-"   autocmd BufWrite * if test#exists() |
-"     \   TestFile |
-"     \ endif
-" augroup END
-
-" Ack.vim
-" =======
-" if executable('ag')
-"   let g:ackprg = 'ag --vimgrep'
-" endif
-" cnoreabbrev ag Ack
-" cnoreabbrev aG Ack
-" cnoreabbrev Ag Ack
-" cnoreabbrev AG Ack  
-
 " Grep
 " ====
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " " ag is fast enough that CtrlP doesn't need to cache
-  " let g:ctrlp_use_caching = 0
 endif
 
 " FZF
@@ -656,32 +628,34 @@ nmap <leader>di :Dispatch<cr>
 " Colors
 " ======
 
-" Dark
+" Style
+
 set background=dark
-colorscheme nova
-" let g:gruvbox_italic=1
-" let g:gruvbox_contrast_dark='hard'
-" colorscheme gruvbox
-
 " set background=light
+
+" Themes
+
+colorscheme nova
+let g:nova_transparent=1
+
 " colorscheme solarized
+" colorscheme alduin
+" colorscheme OceanicNext
+" colorscheme kalahari
+" colorscheme oxeded
+" colorscheme Tomorrow-Night-Eighties
+" colorscheme hybrid
+" colorscheme Monokai
+" colorscheme wombat256
+" colorscheme babymate256
+" colorscheme grb256
+" colorscheme beauty256
 
-"colorscheme alduin
-"colorscheme lucius
-"let g:lucius_style = 'dark'
-"let g:lucius_contrast = 'high'
-"let g:lucius_contrast_bg = 'high'
+" colorscheme lucius
+" let g:lucius_style = 'dark'
+" let g:lucius_contrast = 'high'
+" let g:lucius_contrast_bg = 'high'
 
-"colorscheme OceanicNext
-"colorscheme kalahari
-"colorscheme oxeded
+" Options
 
-"colorscheme Tomorrow-Night-Eighties
-"colorscheme hybrid
-"colorscheme Monokai
-"colorscheme wombat256
-"colorscheme babymate256
-"colorscheme grb256
-
-" Light
-"colorscheme beauty256
+highlight clear SignColumn
