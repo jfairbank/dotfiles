@@ -656,6 +656,10 @@ let g:nova_transparent=1
 " let g:lucius_contrast = 'high'
 " let g:lucius_contrast_bg = 'high'
 
+" colorscheme gruvbox
+" let g:gruvbox_italic=1
+" let g:gruvbox_contrast_dark='hard'
+
 " Options
 
 highlight clear SignColumn
