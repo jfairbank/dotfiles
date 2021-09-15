@@ -36,7 +36,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'airblade/vim-rooter'
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdcommenter'
