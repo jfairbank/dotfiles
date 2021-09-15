@@ -147,6 +147,16 @@ set wildmenu
 set switchbuf=useopen,usetab
 set redrawtime=5000
 
+" Prevent delay when hitting Esc or Ctrl-[
+if !has('gui_running')
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
+endif
+
 " Omnifunc
 set omnifunc=syntaxcomplete#Complete
 
