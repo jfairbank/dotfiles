@@ -86,7 +86,7 @@ Plug 'KabbAmine/vCoolor.vim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'ryanoasis/vim-devicons'
 Plug 'janko-m/vim-test'
-Plug 'jgdavey/tslime.vim'
+Plug 'jgdavey/tslime.vim', { 'branch': 'main' }
 Plug 'benmills/vimux'
 Plug 'amadeus/vim-convert-color-to'
 Plug 'chrisbra/Colorizer'
