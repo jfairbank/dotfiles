@@ -780,6 +780,11 @@ endfunction
 
 let g:splitjoin_trailing_comma = 1
 
+" Custom commands
+" ===============
+
+command -nargs=* Spotify execute "!spotify <args>"
+
 " Mappings
 " ========
 
