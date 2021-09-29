@@ -580,7 +580,8 @@ command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
 " Copy syntax highlighting for JS code
 
-command! -range SyntaxJs <line1>,<line2>w !highlight -s seashell -O rtf -S js -K 60 -k Hack | tr -d '\n' | pbcopy
+command! -range SyntaxJs <line1>,<line2>w !highlight -s seashell -O rtf -S javascript -K 60 -k Hack | tr -d '\n' | pbcopy
+command! -range SyntaxSql <line1>,<line2>w !highlight -s seashell -O rtf -S sql -K 60 -k Hack | tr -d '\n' | pbcopy
 command! -range SyntaxJson <line1>,<line2>w !highlight -s seashell -O rtf -S json -K 60 -k Hack | tr -d '\n' | pbcopy
 command! -range SyntaxJsx <line1>,<line2>w !highlight -s seashell -O rtf -S jsx -K 60 -k Hack | tr -d '\n' | pbcopy
 
