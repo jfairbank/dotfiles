@@ -32,6 +32,20 @@ export EDITOR=vim
 
 # ==============================================================================
 
+# zplug
+# -----
+
+if [ -d /usr/local/opt/zplug ]; then
+  # Source zplug
+  export ZPLUG_HOME=/usr/local/opt/zplug
+  source $ZPLUG_HOME/init.zsh
+
+  # Load plugins
+  zplug load --verbose
+fi
+
+# ==============================================================================
+
 # oh-my-zsh
 # ---------
 
