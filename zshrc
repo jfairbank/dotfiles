@@ -40,6 +40,24 @@ if [ -d /usr/local/opt/zplug ]; then
   export ZPLUG_HOME=/usr/local/opt/zplug
   source $ZPLUG_HOME/init.zsh
 
+  # Plugins
+  zplug 'wfxr/forgit'
+
+  # Customize wfxr/forgit aliases
+  forgit_log=fglo
+  forgit_diff=fgd
+  forgit_add=fga
+  forgit_reset_head=fgrh
+  forgit_ignore=fgi
+  forgit_checkout_file=fgcf
+  forgit_checkout_branch=fgcb
+  forgit_checkout_commit=fgco
+  forgit_clean=fgclean
+  forgit_stash_show=fgss
+  forgit_cherry_pick=fgcp
+  forgit_rebase=fgrb
+  forgit_fixup=fgfu
+
   # Load plugins
   zplug load --verbose
 fi
