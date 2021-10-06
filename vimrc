@@ -475,6 +475,7 @@ set splitright
 " Show dotfiles
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.swp$', '\.git$']
+let NERDTreeWinSize=60
 
 let NERDSpaceDelims=1
 
