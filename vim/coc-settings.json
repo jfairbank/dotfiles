@@ -1,0 +1,25 @@
+{
+  "typescript.suggestionActions.enabled": false,
+  "java.home": "~/.asdf/installs/java/openjdk-17",
+  // "solargraph.commandPath": "/Users/jeremy.fairbank/.rbenv/shims/solargraph",
+  // "solargraph.logLevel": "debug",
+  // "solargraph.trace.server": "verbose",
+  // "solargraph.transport": "external",
+  // "solargraph.externalServer": {
+  //   "host": "localhost",
+  //   "port": 7658
+  // }
+  "languageserver": {
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "initializationOptions": {
+        "elmPath": "elm",
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "elmAnalyseTrigger": "change"
+      }
+    }
+  }
+}
