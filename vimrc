@@ -85,9 +85,9 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'KabbAmine/vCoolor.vim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'ryanoasis/vim-devicons'
-Plug 'janko-m/vim-test'
+Plug 'vim-test/vim-test'
 Plug 'jgdavey/tslime.vim', { 'branch': 'main' }
-Plug 'benmills/vimux'
+Plug 'preservim/vimux'
 Plug 'amadeus/vim-convert-color-to'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-eunuch'
@@ -381,7 +381,7 @@ let g:lightline = {
       \ 'colorscheme': 'nova',
       \ 'mode_map': { 'c': 'NORMAL' },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'cocstatus', 'fugitive', 'filename' ] ],
+      \   'left': [ [ 'mode', 'paste' ], [ 'cocstatus', 'gitbranch', 'filename' ] ],
       \   'right': [ [ 'ale', 'lineinfo' ],
       \              [ 'percent' ],
       \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -389,13 +389,13 @@ let g:lightline = {
       \ 'component_function': {
       \   'modified': 'LightLineModified',
       \   'readonly': 'LightLineReadonly',
-      \   'fugitive': 'LightLineFugitive',
       \   'filename': 'LightLineFilename',
       \   'fileformat': 'LightLineFileformat',
       \   'filetype': 'LightLineFiletype',
       \   'fileencoding': 'LightLineFileencoding',
       \   'mode': 'LightLineMode',
       \   'cocstatus': 'coc#status',
+      \   'gitbranch': 'FugitiveHead',
       \ },
       \ 'component_expand': {
       \   'ale': 'LinterStatus',
@@ -422,14 +422,6 @@ function! LightLineFilename()
         \  &ft == 'vimshell' ? vimshell#get_status_string() :
         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-    let _ = fugitive#head()
-    return strlen(_) ? ''._ : ''
-  endif
-  return ''
 endfunction
 
 " function! LightLineFileformat()
@@ -714,9 +706,13 @@ nmap <silent> <leader>tg :TestVisit<cr>
 
 " Grep
 " ====
+" if executable('ag')
+"   " Use ag over grep
+"   set grepprg=ag\ --nogroup\ --nocolor
+" endif
 if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg=ag\ --vimgrep\ $*
+  set grepformat^=%f:%l:%c:%m
 endif
 
 " FZF
@@ -784,7 +780,7 @@ let g:splitjoin_trailing_comma = 1
 " Custom commands
 " ===============
 
-command -nargs=* Spotify execute "!spotify <args>"
+command -nargs=* Spotify execute "term spotify <args>"
 
 " Mappings
 " ========

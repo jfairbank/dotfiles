@@ -20,13 +20,13 @@ export NVM_DIR="$HOME/.nvm"
 # -----
 eval "$(rbenv init -)"
 
-# hub
-# ---
-eval "$(hub alias -s)"
+# # hub
+# # ---
+# eval "$(hub alias -s)"
 
 # Vars
 # ----
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export TERM=xterm-256color
 export EDITOR=vim
 
@@ -137,6 +137,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# plugins=(git zsh-vi-mode)
 plugins=(git vi-mode)
 
 source $ZSH/oh-my-zsh.sh
@@ -167,6 +168,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ag='ag --pager="less -R"'
+alias be='bundle exec'
 alias s='spotify'
 alias tp='tmux attach-session -t $(tmux list-sessions | sed -E '\''s/:.*$//'\'' | fzf --reverse)'
 
@@ -266,6 +268,8 @@ tmate-unpair() {
 # ==============================================================================
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Ensure fzf keybindings work with zsh-vi-mode plugin
+# zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
 #### FIG ENV VARIABLES ####
@@ -275,3 +279,10 @@ tmate-unpair() {
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# BEGIN ASDF
+source /usr/local/opt/asdf/libexec/asdf.sh
+# END ASDF
+
+# autoload -Uz compinit && compinit

@@ -15,13 +15,13 @@ ${1:params} => (
 endsnippet
 
 snippet fe "forEach" b
-${1:name}.forEach(${2:params} => ${3});
+${1:name}.forEach(${2:params} => ${3})
 endsnippet
 
 snippet feb "forEach braces" b
 ${1:name}.forEach(${2:params} => {
 	${3}
-});
+})
 endsnippet
 
 snippet mapa "map" i
@@ -45,7 +45,7 @@ export ${1:default} function ${2:name}(${3:args}) {
 endsnippet
 
 snippet ret "return" b
-return ${0:result};
+return ${0:result}
 endsnippet
 
 snippet sw "switch" b
@@ -74,7 +74,7 @@ ${1:name}(${2:params}) {
 endsnippet
 
 snippet type "type"
-type ${1:Name} = $0;
+type ${1:Name} = $0
 endsnippet
 
 snippet foro "for of" b
@@ -96,7 +96,7 @@ endsnippet
 snippet propt "propTypes definition" b
 ${1:name}.propTypes = {
 	$0
-};
+}
 endsnippet
 
 snippet gen "Generator function" i
@@ -106,83 +106,83 @@ function* ${1:name}(${2:params}) {
 endsnippet
 
 snippet y "yield" b
-yield $0;
+yield $0
 endsnippet
 
 snippet y* "yield*" b
-yield* $0;
+yield* $0
 endsnippet
 
 snippet des "describe(...)" b
 describe('${1:description}', () => {
 	$0
-});
+})
 endsnippet
 
 snippet con "context(...)" b
 context('${1:description}', () => {
 	$0
-});
+})
 endsnippet
 
 snippet it "it(...)" b
 it('${1:description}', () => {
 	$0
-});
+})
 endsnippet
 
 snippet test "test(...)" b
 test('${1:description}', () => {
 	$0
-});
+})
 endsnippet
 
 snippet bef "beforeEach(...)" b
 beforeEach(() => {
 	$1
-});
+})
 endsnippet
 
 snippet eb "expect(...).toBe(...)" b
-expect(${1:actual}).toBe(${2:expected});
+expect(${1:actual}).toBe(${2:expected})
 endsnippet
 
 snippet nb "expect(...).not.toBe(...)" b
-expect(${1:actual}).not.toBe(${2:expected});
+expect(${1:actual}).not.toBe(${2:expected})
 endsnippet
 
 snippet ee "expect(...).toEqual(...)" b
-expect(${1:actual}).toEqual(${2:expected});
+expect(${1:actual}).toEqual(${2:expected})
 endsnippet
 
 snippet em "expect(...).toMatch()" b
-expect(${1:actual}).toMatch(/${2:regex}/);
+expect(${1:actual}).toMatch(/${2:regex}/)
 endsnippet
 
 snippet ems "expect(...).toMatchSnapshot()" b
-expect(${1:output}).toMatchSnapshot();
+expect(${1:output}).toMatchSnapshot()
 endsnippet
 
 snippet ebty "expect(...).toBeTruthy()" b
-expect(${1:actual}).toBeTruthy();
+expect(${1:actual}).toBeTruthy()
 endsnippet
 
 snippet eio "expect(...).toBeInstanceOf(...)" b
-expect(${1:instance}).toBeInstanceOf(${2:constructor});
+expect(${1:instance}).toBeInstanceOf(${2:constructor})
 endsnippet
 
 snippet ethbc "expect(...).toHaveBeenCalled()" b
-expect(${1:spy}).toHaveBeenCalled();
+expect(${1:spy}).toHaveBeenCalled()
 endsnippet
 
 snippet ethbct "expect(...).toHaveBeenCalledTimes(n)" b
-expect(${1:spy}).toHaveBeenCalledTimes(${2:n});
+expect(${1:spy}).toHaveBeenCalledTimes(${2:n})
 endsnippet
 
 snippet ethbcw "expect(...).toHaveBeenCalledWith(...args)" b
-expect(${1:spy}).toHaveBeenCalledWith(${2:args});
+expect(${1:spy}).toHaveBeenCalledWith(${2:args})
 endsnippet
 
 snippet nthbc "expect(...).not.toHaveBeenCalled()" b
-expect(${1:spy}).not.toHaveBeenCalled();
+expect(${1:spy}).not.toHaveBeenCalled()
 endsnippet
