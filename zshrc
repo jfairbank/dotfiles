@@ -283,7 +283,8 @@ tmate-unpair() {
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # BEGIN ASDF
-source /usr/local/opt/asdf/libexec/asdf.sh
+[ -f /usr/local/opt/asdf/libexec/asdf.sh ] && source /usr/local/opt/asdf/libexec/asdf.sh
+[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
 # END ASDF
 
 # autoload -Uz compinit && compinit
