@@ -607,7 +607,7 @@ let g:ale_fix_on_save = 0
 " ========
 
 " Auto wrap markdown
-au BufRead,BufNewFile *.md setlocal textwidth=80 wrap
+au BufRead,BufNewFile *.md setlocal textwidth=80 wrap spell
 " Highlight code blocks
 let g:markdown_fenced_languages = ['javascript']
 " Execute code blocks
