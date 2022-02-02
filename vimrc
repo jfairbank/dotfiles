@@ -528,7 +528,7 @@ autocmd FileType java setlocal tabstop=4 shiftwidth=4
 autocmd FileType elm setlocal tabstop=4 shiftwidth=4 expandtab
 
 " Filetype syntax associations
-au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder set filetype=ruby
+au BufRead,BufNewFile *.ru,*.cap,*.rabl,*.arb,Guardfile,*.jbuilder,Brewfile set filetype=ruby
 au BufRead,BufNewFile *.jison set filetype=yacc
 au BufRead,BufNewFile *.jisonlex set filetype=javascript
 au BufRead,BufNewFile .eslintrc,.jshintrc,.babelrc set filetype=json
