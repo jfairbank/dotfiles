@@ -171,6 +171,7 @@ alias ag='ag --pager="less -R"'
 alias be='bundle exec'
 alias s='spotify'
 alias tp='tmux attach-session -t $(tmux list-sessions | sed -E '\''s/:.*$//'\'' | fzf --reverse)'
+alias tx=tmuxinator
 
 # ==============================================================================
 
