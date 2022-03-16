@@ -29,6 +29,7 @@ eval "$(rbenv init -)"
 export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export TERM=xterm-256color
 export EDITOR=vim
+unset -v GEM_HOME
 
 # ==============================================================================
 
