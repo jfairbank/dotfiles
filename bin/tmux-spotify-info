@@ -1,14 +1,43 @@
-#!/usr/bin/env osascript
+#! /usr/bin/env elixir
 
-tell application "Spotify"
-  if it is running then
-    if player state is playing then
-      set track_name to name of current track
-      set artist_name to artist of current track
+defmodule Spotli do
+  @moduledoc false
 
-      if artist_name > 0
-        "🎧 " & artist_name & " - " & track_name & " | "
-      end if
-    end if
-  end if
-end tell
+  def run!(command) do
+    Task.async(fn ->
+      {stdout, 0} = System.cmd("spotli", [command])
+      stdout
+    end)
+  end
+end
+
+commands = ["status", "vol"]
+
+[status_output, volume_output] =
+  commands
+  |> Enum.map(&Spotli.run!/1)
+  |> Task.await_many()
+
+[
+  play_status,
+  artists,
+  _album,
+  "Track: " <> track,
+  _position | _
+] = String.split(status_output, "\n")
+
+case play_status do
+  "Spotify is currently playing" ->
+    artist =
+      case artists do
+        "Artists: " <> artists_ -> artists_ |> String.split(",") |> List.first()
+        "Artist: " <> artist -> artist
+      end
+
+    "Current Spotify volume level is " <> volume = String.trim(volume_output)
+
+    IO.puts("🎧 (#{volume}) #{artist} - #{track} | ")
+
+  _ ->
+    IO.puts("")
+end
