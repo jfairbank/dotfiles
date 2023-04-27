@@ -16,6 +16,10 @@ export NVM_DIR="$HOME/.nvm"
 # -----
 eval "$(rbenv init -)"
 
+# nodenv
+# ------
+eval "$(nodenv init -)"
+
 # # hub
 # # ---
 # eval "$(hub alias -s)"
