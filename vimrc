@@ -127,9 +127,6 @@ call plug#end()
 
 " ------------------------------------------------------------------------------
 
-" Pathogen
-execute pathogen#infect()
-
 " General Config
 syntax on
 set t_Co=256
