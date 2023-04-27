@@ -1,0 +1,4 @@
+[alias]
+  co = checkout
+  cob = !git branch | fzf --reverse | xargs -I {} zsh -c \"git checkout {}\"
+  rs = !git reset --soft HEAD^ && git reset HEAD
