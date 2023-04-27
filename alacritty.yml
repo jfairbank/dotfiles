@@ -62,7 +62,7 @@ theme: Nova
 key_bindings:
   - { key: F11, action: ToggleFullscreen }
 font:
-  size: 12
+  size: 16
   offset:
     x: 0
-    y: 4
+    y: 8
