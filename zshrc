@@ -271,7 +271,10 @@ tmate-unpair() {
 
 # ==============================================================================
 
+# After first fzf install
+# $(brew --prefix)/opt/fzf/install
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # Ensure fzf keybindings work with zsh-vi-mode plugin
 # zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
