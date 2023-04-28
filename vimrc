@@ -609,6 +609,8 @@ let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 command! Jest Dispatch jest
+let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
+let g:neoformat_enabled_haskell = ['ormolu']
 let g:ale_fixers = {
   \ 'javascript': ['prettier', 'prettier-standard', 'eslint'],
   \ 'typescriptreact': ['prettier', 'prettier-standard', 'eslint'],
