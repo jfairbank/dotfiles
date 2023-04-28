@@ -60,6 +60,8 @@ colors:
     white: '#E6EEF3'
 theme: Nova
 font:
+  normal:
+    family: Hack NF
   size: 16
   offset:
     x: 0
