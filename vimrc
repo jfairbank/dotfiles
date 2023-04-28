@@ -609,24 +609,11 @@ let g:jsx_ext_required = 0 " Enable jsx for .js files
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 command! Jest Dispatch jest
-" autocmd FileType javascript,javascript.jsx set formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ all
-" autocmd BufWritePre *.js :normal gggqG
-" autocmd BufWritePre *.js Neoformat
-" let g:neoformat_javascript_customprettier = {
-"             \ 'exe': 'prettier',
-"             \ 'args': ['--stdin', '--parser flow', '--single-quote', '--trailing-comma all'],
-"             \ 'stdin': 1,
-"             \ }
-
-" let g:neoformat_enabled_javascript = ['customprettier']
-" let g:prettier#autoformat = 1
-" autocmd BufWritePre *.js,*.json PrettierAsync
 let g:ale_fixers = {
   \ 'javascript': ['prettier', 'prettier-standard', 'eslint'],
   \ 'typescriptreact': ['prettier', 'prettier-standard', 'eslint'],
   \ 'typescript': ['prettier', 'prettier-standard', 'eslint']
   \ }
-" let g:ale_linters = {'javascript': ['']}
 let g:ale_fix_on_save = 0
 
 " Markdown
