@@ -59,8 +59,6 @@ colors:
     cyan: '#7FC1CA'
     white: '#E6EEF3'
 theme: Nova
-key_bindings:
-  - { key: F11, action: ToggleFullscreen }
 font:
   size: 16
   offset:
