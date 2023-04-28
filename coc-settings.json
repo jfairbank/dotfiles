@@ -1,0 +1,20 @@
+{
+  // "codeLens.enable": true,
+  "languageserver": {
+    "elixirLS": {
+      "command": "~/elixir-ls/release/language_server.sh",
+      "filetypes": ["elixir", "eelixir"]
+    },
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "initializationOptions": {
+        "elmPath": "elm",
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "elmReviewPath": "elm-review"
+      }
+    }
+  }
+}
