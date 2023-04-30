@@ -95,6 +95,7 @@ Plug 'rhysd/reply.vim'
 Plug 'gpanders/vim-medieval'
 Plug 'rizzatti/dash.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+Plug 'github/copilot.vim'
 " Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 " Plug 'mxw/vim-jsx'
