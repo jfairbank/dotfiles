@@ -61,7 +61,7 @@ colors:
 theme: Nova
 font:
   normal:
-    family: Hack NF
+    family: Hack Nerd Font Mono
   size: 16
   offset:
     x: 0
