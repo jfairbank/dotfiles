@@ -5,6 +5,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Vars
+# ----
+export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:~/.ghcup/bin:~/.cabal/bin:$PATH
+export TERM=xterm-256color
+export EDITOR=vim
+export GPG_TTY=$(tty)
+unset -v GEM_HOME
 
 # nvm
 # ---
@@ -23,14 +30,6 @@ eval "$(nodenv init -)"
 # # hub
 # # ---
 # eval "$(hub alias -s)"
-
-# Vars
-# ----
-export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:~/.ghcup/bin:~/.cabal/bin:$PATH
-export TERM=xterm-256color
-export EDITOR=vim
-export GPG_TTY=$(tty)
-unset -v GEM_HOME
 
 # ==============================================================================
 
