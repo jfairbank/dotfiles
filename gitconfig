@@ -13,4 +13,4 @@
 [pager]
 	branch = false
 [core]
-	excludesfile = <replace>
+	excludesfile = ~/.gitignore
