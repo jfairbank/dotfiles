@@ -9,7 +9,7 @@ fi
 
 # Vars
 # ----
-export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:~/.ghcup/bin:~/.cabal/bin:$PATH
+export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:~/.ghcup/bin:~/.cabal/bin:~/.local/bin$PATH
 export TERM=xterm-256color
 export EDITOR=vim
 export GPG_TTY=$(tty)
