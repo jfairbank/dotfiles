@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -euo pipefail
+
+[ -f "jf-scripts" ] && (echo "jf-scripts is a file, not a folder" && exit 1)
+
+[ -d "jf-scripts" ] || (echo "jf-scripts folder does not exist" && exit 1)
+
+command=$1
+
+[ -z "$command" ] && (echo "command not provided" && exit 1)
+
+[ -f "jf-scripts/$1" ] || (echo "$1 command not found in jf-scripts folder" && exit 1)
+
+shift
+
+./jf-scripts/$command $@
