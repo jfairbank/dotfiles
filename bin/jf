@@ -1,17 +1,41 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-set -euo pipefail
+require "pathname"
 
-[ -f "jf-scripts" ] && (echo "jf-scripts is a file, not a folder" && exit 1)
+SCRIPTS_DIR = "jf-scripts"
 
-[ -d "jf-scripts" ] || (echo "jf-scripts folder does not exist" && exit 1)
+def find_scripts_dir!(dir = Dir.pwd)
+  path = File.expand_path(SCRIPTS_DIR, dir)
 
-command=$1
+  if File.directory?(path)
+    path
+  elsif Pathname(dir).root?
+    $stderr.puts("jf-scripts folder could not be found")
+    exit(false)
+  else
+    find_scripts_dir!(File.expand_path("..", dir))
+  end
+end
 
-[ -z "$command" ] && (echo "command not provided" && exit 1)
+def get_command!(path)
+  command = ARGV[0]
 
-[ -f "jf-scripts/$1" ] || (echo "$1 command not found in jf-scripts folder" && exit 1)
+  if command.nil?
+    $stderr.puts("command not provided")
+    exit(false)
+  end
 
-shift
+  command_path = File.expand_path(command, path)
 
-./jf-scripts/$command $@
+  unless File.file?(command_path)
+    $stderr.puts("#{command} command not found in jf-scripts folder")
+    exit(false)
+  end
+
+  command_path
+end
+
+dir = find_scripts_dir!()
+command_path = get_command!(dir)
+
+exec(command_path, *ARGV[1..])
