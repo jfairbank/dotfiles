@@ -13,6 +13,7 @@ export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:~/.ghcup/
 export TERM=xterm-256color
 export EDITOR=vim
 export GPG_TTY=$(tty)
+export ERL_AFLAGS="-kernel shell_history enabled"
 unset -v GEM_HOME
 
 # rbenv
