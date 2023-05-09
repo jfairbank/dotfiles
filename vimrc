@@ -300,6 +300,8 @@ augroup mygroup
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  " Fix for elixir
+  autocmd FileType elixir let b:coc_root_patterns = ['mix.exs']
 augroup end
 
 " Applying codeAction to the selected region.
