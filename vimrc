@@ -104,6 +104,8 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'github/copilot.vim'
 Plug 'wellle/context.vim'
 Plug 'preservim/tagbar'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 " Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 " Plug 'mxw/vim-jsx'
