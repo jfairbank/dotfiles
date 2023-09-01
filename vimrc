@@ -660,7 +660,8 @@ let g:markdown_fenced_languages = [
         \ 'javascript',
         \ 'json',
         \ 'typescript',
-        \ 'ruby'
+        \ 'ruby',
+        \ 'mermaid',
     \ ]
 " Execute code blocks
 let g:medieval_langs = ['javascript=node']
