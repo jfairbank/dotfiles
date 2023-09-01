@@ -165,6 +165,7 @@ alias vim='vim +":FocusDispatch :Neoformat" +":ALEDisable"'
 alias ag='ag --pager="less -R"'
 alias be='bundle exec'
 alias s='spotify'
+alias sp='spotli'
 alias tp='tmux attach-session -t $(tmux list-sessions | sed -E '\''s/:.*$//'\'' | fzf --reverse)'
 alias tx=tmuxinator
 alias txs='tmuxinator ls | grep -v "tmuxinator projects" | tr " " "\n" | grep -ve "^$" | fzf --reverse | xargs -I {} zsh -c "exec </dev/tty; exec <&1; tmuxinator start {}"'
