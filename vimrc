@@ -106,6 +106,7 @@ Plug 'wellle/context.vim'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'dhruvasagar/vim-table-mode'
 " Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 " Plug 'mxw/vim-jsx'
