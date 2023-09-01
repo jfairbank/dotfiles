@@ -103,6 +103,7 @@ Plug 'rizzatti/dash.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'github/copilot.vim'
 Plug 'wellle/context.vim'
+Plug 'preservim/tagbar'
 " Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 " Plug 'mxw/vim-jsx'
