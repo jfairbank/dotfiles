@@ -135,6 +135,7 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'AlessandroYorba/Alduin'
 Plug 'trevordmiller/nova-vim'
 Plug 'morhetz/gruvbox'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -418,7 +419,7 @@ function! LinterStatus() abort
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'nova',
+      \ 'colorscheme': 'catppuccin_mocha',
       \ 'mode_map': { 'c': 'NORMAL' },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'cocstatus', 'gitbranch', 'filename' ] ],
@@ -878,13 +879,19 @@ nmap <leader>di :Dispatch<cr>
 
 " Style
 
-set background=dark
+" set background=dark
 " set background=light
+set termguicolors
 
 " Themes
 
-colorscheme nova
-let g:nova_transparent=1
+" colorscheme nova
+" let g:nova_transparent=1
+
+" colorscheme catppuccin_frappe
+colorscheme catppuccin_mocha
+" colorscheme catppuccin_latte
+" colorscheme catppuccin_macchiato
 
 " colorscheme solarized
 " colorscheme alduin
