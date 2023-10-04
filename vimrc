@@ -638,6 +638,12 @@ command! Jest Dispatch jest
 
 let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
 let g:neoformat_enabled_haskell = ['ormolu']
+let g:neoformat_try_node_exe = 1
+
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 
 " ------------------------------------------------------------------------------
 
