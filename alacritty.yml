@@ -7,10 +7,11 @@ font:
   normal:
     family: Hack Nerd Font Mono
   size: 16
+mouse:
+  hide_when_typing: true
   # offset:
   #   x: 0
   #   y: 0
-
 # items:
 #   - colors:
 #       name: 3024 (dark)
