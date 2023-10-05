@@ -419,7 +419,7 @@ function! LinterStatus() abort
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'catppuccin_mocha',
+      \ 'colorscheme': 'catppuccin_frappe',
       \ 'mode_map': { 'c': 'NORMAL' },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'cocstatus', 'gitbranch', 'filename' ] ],
@@ -894,8 +894,8 @@ set termguicolors
 " colorscheme nova
 " let g:nova_transparent=1
 
-" colorscheme catppuccin_frappe
-colorscheme catppuccin_mocha
+colorscheme catppuccin_frappe
+" colorscheme catppuccin_mocha
 " colorscheme catppuccin_latte
 " colorscheme catppuccin_macchiato
 
