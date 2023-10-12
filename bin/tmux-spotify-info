@@ -11,33 +11,37 @@ defmodule Spotli do
   end
 end
 
-commands = ["status", "vol"]
+commands = ["status"]
 
-[status_output, volume_output] =
+[status_output] =
   commands
   |> Enum.map(&Spotli.run!/1)
   |> Task.await_many()
 
-[
-  play_status,
-  artists,
-  _album,
-  "Track: " <> track,
-  _position | _
-] = String.split(status_output, "\n")
+case String.split(status_output, "\n") do
+  [
+    play_status,
+    artists,
+    _album,
+    "Track: " <> track,
+    _position | _
+  ] ->
+    with "Spotify is currently " <> status <- play_status do
+      artist =
+        case artists do
+          "Artists: " <> artists_ -> artists_ |> String.split(",") |> List.first()
+          "Artist: " <> artist -> artist
+        end
 
-case play_status do
-  "Spotify is currently playing" ->
-    artist =
-      case artists do
-        "Artists: " <> artists_ -> artists_ |> String.split(",") |> List.first()
-        "Artist: " <> artist -> artist
-      end
+      status =
+        case status do
+          "playing" -> ""
+          "paused" -> " "
+        end
 
-    "Current Spotify volume level is " <> volume = String.trim(volume_output)
+      IO.puts("#{status}#{artist} - #{track}")
+    end
 
-    IO.puts("🎧 (#{volume}) #{artist} - #{track} | ")
-
-  _ ->
-    IO.puts("")
+  ["No active device" | _] ->
+    IO.puts("Not playing")
 end
