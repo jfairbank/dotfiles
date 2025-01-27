@@ -35,7 +35,7 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
+" Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'othree/html5.vim'
@@ -102,11 +102,15 @@ Plug 'gpanders/vim-medieval'
 Plug 'rizzatti/dash.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'github/copilot.vim'
-Plug 'wellle/context.vim'
+" Plug 'wellle/context.vim'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'tpope/vim-projectionist'
+Plug 'puremourning/vimspector'
+" Plug 'justinmk/vim-dirvish'
+" Plug 'metakirby5/codi.vim'
 " Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 " Plug 'mxw/vim-jsx'
@@ -160,7 +164,7 @@ set exrc
 set incsearch
 set wildmode=longest,list,full
 set wildmenu
-set switchbuf=useopen,usetab
+" set switchbuf=useopen,usetab
 set redrawtime=5000
 
 " Prevent delay when hitting Esc or Ctrl-[
@@ -178,6 +182,9 @@ endif
 " vimux
 " =====
 
+let g:VimuxOrientation = 'h'
+let g:VimuxHeight = '50'
+
 " Prompt for a command to run
 map <Leader>vp :VimuxPromptCommand<CR>
 
@@ -186,6 +193,9 @@ map <Leader>vl :VimuxRunLastCommand<CR>
 
 " Inspect runner pane
 map <Leader>vi :VimuxInspectRunner<CR>
+
+" Open vim tmux runner opened by VimuxRunCommand
+map <Leader>vo :VimuxOpenRunner<CR>
 
 " Close vim tmux runner opened by VimuxRunCommand
 map <Leader>vq :VimuxCloseRunner<CR>
@@ -638,7 +648,11 @@ command! Jest Dispatch jest
 
 let g:neoformat_haskell_ormolu = { 'exe': 'ormolu', 'args': [] }
 let g:neoformat_enabled_haskell = ['ormolu']
+" let g:neoformat_enabled_javascript = []
+let g:neoformat_enabled_javascriptreact = ['prettier']
+" let g:neoformat_enabled_deno = []
 let g:neoformat_try_node_exe = 1
+let g:neoformat_enabled_ruby = ['rubocop']
 
 augroup fmt
   autocmd!
@@ -786,56 +800,64 @@ autocmd VimEnter * command! -bang -nargs=* Ag
   \                 <bang>0)
 
 " Files + devicons
-function! Fzf_dev()
-  let s:actions = {
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-x': 'split',
-    \ 'ctrl-v': 'vsplit' }
+" function! Fzf_dev()
+"   let s:actions = {
+"     \ 'ctrl-t': 'tab split',
+"     \ 'ctrl-x': 'split',
+"     \ 'ctrl-v': 'vsplit' }
 
-  " let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v --preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
-  " let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v --preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify -t github | head -'.&lines.'"'
-  let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v'
+"   " let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v --preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
+"   " let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v --preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify -t github | head -'.&lines.'"'
+"   let l:fzf_files_options = '--expect=ctrl-t,ctrl-x,ctrl-v'
 
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    return s:prepend_icon(l:files)
-  endfunction
+"   function! s:files()
+"     let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+"     return s:prepend_icon(l:files)
+"   endfunction
 
-  function! s:action_for(key, ...)
-    let default = a:0 ? a:1 : 'e'
-    return get(s:actions, a:key, default)
-  endfunction
+"   function! s:action_for(key, ...)
+"     let default = a:0 ? a:1 : 'e'
+"     return get(s:actions, a:key, default)
+"   endfunction
 
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      call add(l:result, printf('%s %s', l:icon, l:candidate))
-    endfor
+"   function! s:prepend_icon(candidates)
+"     let l:result = []
+"     for l:candidate in a:candidates
+"       let l:filename = fnamemodify(l:candidate, ':p:t')
+"       let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+"       call add(l:result, printf('%s %s', l:icon, l:candidate))
+"     endfor
 
-    return l:result
-  endfunction
+"     return l:result
+"   endfunction
 
-  function! s:edit_file(lines)
-    let l:cmd = s:action_for(a:lines[0])
-    let l:parts = split(a:lines[1], ' ')
-    let l:file_path = get(l:parts, 1, '')
-    " execute 'silent e' l:file_path
-    execute 'silent '.cmd l:file_path
-  endfunction
+"   function! s:edit_file(lines)
+"     let l:cmd = s:action_for(a:lines[0])
+"     let l:parts = split(a:lines[1], ' ')
+"     let l:file_path = get(l:parts, 1, '')
+"     " execute 'silent e' l:file_path
+"     execute 'silent '.cmd l:file_path
+"   endfunction
 
-  call fzf#run({
-        \ 'source': <sid>files(),
-        \ 'sink*':   function('s:edit_file'),
-        \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
-endfunction
+"   call fzf#run({
+"         \ 'source': <sid>files(),
+"         \ 'sink*':   function('s:edit_file'),
+"         \ 'options': '-m ' . l:fzf_files_options,
+"         \ 'down':    '40%' })
+" endfunction
 
 " splitjoin
 " =========
 
 let g:splitjoin_trailing_comma = 1
+
+" vim-clap
+" ========
+
+let g:clap_theme = 'material_design_dark'
+
+nmap <leader>lt :Clap tags<CR>
+nmap <leader>lb :Clap buffers<CR>
 
 " Custom commands
 " ===============
