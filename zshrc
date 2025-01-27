@@ -223,6 +223,18 @@ fif() {
   rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
 
+fuzzybranch() {
+  local result=$(git branch | sed 's/^..//' | fzf --reverse --height='40%' --prompt='Select branch: ')
+
+  if [[ -n "$result" ]]; then
+    LBUFFER+=" $result"
+  fi
+
+  zle redisplay
+}
+zle -N fuzzybranch
+bindkey '^g' fuzzybranch
+
 # ==============================================================================
 
 # Tmate
